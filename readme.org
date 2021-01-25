@@ -1,0 +1,4 @@
+#+TITLE: Readme
+
+* TODO Find a list of papers to do a lit review
+* TODO choose models to implement
