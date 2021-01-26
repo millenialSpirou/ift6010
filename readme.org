@@ -1,4 +1,21 @@
-#+TITLE: Readme
+#+TITLE: IFT6090 project
 
-* TODO Find a list of papers to do a lit review
-* TODO choose models to implement
+
+* ressources
+
+- [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
+
+** arxiv links
+
+- [[https://arxiv.org/abs/1810.04805][arxiv BERT]]
+- [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
+
+** github links
+
+- [[https://github.com/google-research/bert][GitHub - google-research/bert: TensorFlow code and pre-trained models for BERT]]
+- [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
+
+
+* steps
+** TODO project proposal
+DEADLINE: <2021-02-05 Fri>
