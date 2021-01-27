@@ -1,6 +1,15 @@
 #+TITLE: IFT6090 project
 #+author: frederic boileau
 
+* notes
+The Steps section is the TODO list.
+It seems that transformer is a special case of attention models.
+The paper  [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
+is referenced a lot and its pictures used in the easier "pop" links I've found. I think
+understanding what attention is will be the first step for me at least.
+I've started listing the TODOs in the steps section.
+
+
 * ressources
 
 - [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
@@ -11,6 +20,14 @@
 - [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
 - [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
+- [[https://arxiv.org/abs/1705.03122][arxiv Convolutional sequence to sequence learning]]
+- [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
+- [[https://arxiv.org/pdf/1902.02181.pdf][arxiv attention in natural language processing]]
+
+** easier links
+
+- [[https://towardsdatascience.com/attention-models-in-nlp-a-quick-introduction-2593c1fe35eb][Attention models in NLP a quick introduction | by Manish Chablani | Towards D...]]
+- [[https://www.youtube.com/watch?v=S27pHKBEp30][LSTM is dead. Long Live Transformers! - YouTube]]
 
 ** github links
 
@@ -22,3 +39,7 @@
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
 *** TODO project proposal latex template
+*** TODO narrow down list of papers to reference in proposal
+*** TODO create master bibtex file
+*** TODO understand attention
+*** TODO understand how CNN's seem to replace RNN for sequences
