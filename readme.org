@@ -9,6 +9,8 @@
 
 - [[https://arxiv.org/abs/1810.04805][arxiv BERT]]
 - [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
+- [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
+- [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
 
 ** github links
 
