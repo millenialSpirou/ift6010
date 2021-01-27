@@ -1,4 +1,4 @@
-#+TITLE: IFT6090 project
+#+TITLE: IFT6010 project
 #+author: frederic boileau
 
 * ressources
