@@ -1,5 +1,5 @@
 #+TITLE: IFT6090 project
-
+#+author: frederic boileau
 
 * ressources
 
@@ -19,3 +19,4 @@
 * steps
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
+*** TODO project proposal latex template
