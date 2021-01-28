@@ -46,6 +46,25 @@ while distant ele- ments interact at higher layers. Hierarchical structure pro-
 vides a shorter path to capture long-range dependencies compared to the chain
 structure modeled by recurrent net- works,"
 
+``In this paper we propose an architecture for sequence to se-
+quence modeling that is entirely convolutional. Our model
+is equipped with gated linear units (Dauphin et al., 2016)
+and residual connections (He et al., 2015a). We also use
+attention in every decoder layer and demonstrate that each
+attention layer only adds a negligible amount of overhead.
+The combination of these choices enables us to tackle large
+scale problems''
+
+``The encoder RNN processes an input sequence x =
+$(x_1 , \ldots , x_m )$ of m elements and returns state representa-
+tions $z = (z_1, \ldots , z_m )$. The decoder RNN takes z and
+generates the output sequence $y = (y 1 , \ldots , y_n )$ left to
+right, one element at a time. To generate output $y_{i+1}$ , the
+decoder computes a new hidden state $h_{i+1}$ based on the
+previous state $h_i$ , an embedding $g_i$ of the previous target
+language word $y_i$ , as well as a conditional input $c_i$ derived
+from the encoder output z."
+
 - [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
 - [[https://arxiv.org/pdf/1902.02181.pdf][arxiv attention in natural language processing]]
 
