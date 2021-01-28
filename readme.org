@@ -2,17 +2,18 @@
 #+author: frederic boileau
 
 * notes
-The Steps section is the TODO list.
-It seems that transformer is a special case of attention models.
-The paper  [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
-is referenced a lot and its pictures used in the easier "pop" links I've found. I think
-understanding what attention is will be the first step for me at least.
-I've started listing the TODOs in the steps section.
+The Steps section is the TODO list. It seems that transformer is a special case
+of attention models. The paper [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly
+Learning to Align and Translate]] is referenced a lot and its pictures used in the
+easier "pop" links I've found. I think understanding what attention is will be
+the first step for me at least.
 
 
 * ressources
 
 - [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
+
+- [[https://www.overleaf.com/learn/latex/bibliography_management_with_bibtex][Bibliography management with bibtex - Overleaf, Online LaTeX Editor]]
 
 ** arxiv links
 
@@ -20,7 +21,31 @@ I've started listing the TODOs in the steps section.
 - [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
 - [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
-- [[https://arxiv.org/abs/1705.03122][arxiv Convolutional sequence to sequence learning]]
+- [[https://arxiv.org/abs/1705.03122][arxiv Convolutional sequence to sequence learning]] :
+
+*This paper contains Positional Encoding which used by transformer*
+
+"The dominant approach to date encodes the input sequence with a se- ries of
+bi-directional recurrent neural networks (RNN) and generates a variable length
+output with another set of de- coder RNNs, both of which interface via a
+*soft-attention mechanism* (Bahdanau et al., 2014; Luong et al., 2015)."
+
+"Compared to recurrent layers, convolutions create representations for fixed
+size contexts, however, the effective context size of the network can easily
+be made larger by stacking several layers on top of each other. This allows to
+precisely control the maximum length of dependencies to be modeled."
+
+"Convolutional networks do not depend on the computations of the previous time
+step and therefore allow parallelization over every element in a sequence.
+This contrasts with RNNs which maintain a hidden state of the entire past that
+prevents parallel computation within a sequence."
+
+"Multi-layer convolutional neural networks create hierarchi- cal representations
+over the input sequence in which nearby input elements interact at lower layers
+while distant ele- ments interact at higher layers. Hierarchical structure pro-
+vides a shorter path to capture long-range dependencies compared to the chain
+structure modeled by recurrent net- works,"
+
 - [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
 - [[https://arxiv.org/pdf/1902.02181.pdf][arxiv attention in natural language processing]]
 
@@ -38,8 +63,12 @@ I've started listing the TODOs in the steps section.
 * steps
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
-*** TODO project proposal latex template
-*** TODO narrow down list of papers to reference in proposal
+
+file:./tex/proposaltemplate.tex
+file:./tex/proposalbibliography.bib
+
+*** DONE project proposal latex template
 *** TODO create master bibtex file
+*** TODO narrow down list of papers to reference in proposal
 *** TODO understand attention
 *** TODO understand how CNN's seem to replace RNN for sequences
