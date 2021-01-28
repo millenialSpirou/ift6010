@@ -2,28 +2,50 @@
 #+author: frederic boileau
 
 * notes
-The Steps section is the TODO list. It seems that transformer is a special case
-of attention models. The paper [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly
-Learning to Align and Translate]] is referenced a lot and its pictures used in the
-easier "pop" links I've found. I think understanding what attention is will be
-the first step for me at least.
-
+- The Steps section is the TODO list.
+- I am extracting quotes from the arxiv papers as I read them and add their
+  bibtex info to the bib file. If you want to reference papers
+  in the latex (overleaf) file there is a link below on bib management in latex.
+  the latex files are in the tex dir
+- The arxiv links are ordered by importance IMO
 
 * ressources
-
-- [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
-
-- [[https://www.overleaf.com/learn/latex/bibliography_management_with_bibtex][Bibliography management with bibtex - Overleaf, Online LaTeX Editor]]
-
 ** arxiv links
-
-- [[https://arxiv.org/abs/1810.04805][arxiv BERT]]
-- [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
-- [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
+*** Attention is all you need
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
+- file:./papers/attentionIsAllYouNeed.pdf
+
+*** Neural machine translation by jointly learning to align and translate
+- [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
+- file:./papers/jointlyLearningToAlignAndTranslate.pdf
+
+*Referenced a lot for attention mechanism*
+
+``In this paper, we conjecture that the use of a fixed-length vector is a
+bottleneck in improving the performance of this basic encoder–decoder architec-
+ture, and propose to extend this by allowing a model to automatically
+(soft-)search for parts of a source sentence that are relevant to predicting a
+target word, without having to form these parts as a hard segment explicitly.''
+
+``
+Cho et al. (2014b) showed that indeed the performance of a basic
+encoder–decoder deteriorates rapidly as the length of an input sentence
+increases.
+
+Each time the proposed model generates a word in a translation, it
+(soft-)searches for a set of positions in a source sentence where the most
+relevant information is concentrated. The model then predicts a target word
+*based on the context vectors associated with these source positions*
+*and all the previous generated target words.*
+
+it [the model] encodes the input sentence into a sequence of vectors and chooses
+a subset of these vectors adaptively while decoding the translation.  ''
+*** Convolutional Sequence To Sequence Learning
 - [[https://arxiv.org/abs/1705.03122][arxiv Convolutional sequence to sequence learning]] :
+- file:./papers/convolutionalsequencetosequencelearning.pdf
 
 *This paper contains Positional Encoding which used by transformer*
+*Two papers are extensively referenced: (Bahdanau et al., 2014; Luong et al., 2015)*
 
 "The dominant approach to date encodes the input sequence with a se- ries of
 bi-directional recurrent neural networks (RNN) and generates a variable length
@@ -65,10 +87,32 @@ previous state $h_i$ , an embedding $g_i$ of the previous target
 language word $y_i$ , as well as a conditional input $c_i$ derived
 from the encoder output z."
 
-- [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
+``Models without attention consider only the final encoder
+state z m by setting c i = z m for all i (Cho et al., 2014), or
+simply initialize the first decoder state with z m (Sutskever
+et al., 2014), in which case c i is not used. Architectures
+with attention *(Bahdanau et al., 2014; Luong et al., 2015)*
+compute c i as a weighted sum of (z 1 . . . . , z m ) at each time
+step. The weights of the sum are referred to as attention
+scores and allow the network to focus on different parts of
+the input sequence as it generates the output sequences. At-
+tention scores are computed by essentially comparing each
+encoder state z j to a combination of the previous decoder
+state h i and the last prediction y i ; the result is normalized
+to be a distribution over input elements."
+
+*** to read and summarize
+- [[https://arxiv.org/abs/1810.04805][arxiv BERT]]
+- [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
+- [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
 - [[https://arxiv.org/pdf/1902.02181.pdf][arxiv attention in natural language processing]]
 
-** easier links
+** misc
+
+- [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
+- [[https://www.overleaf.com/learn/latex/bibliography_management_with_bibtex][Bibliography management with bibtex - Overleaf, Online LaTeX Editor]]
+
+** easier/pop links
 
 - [[https://towardsdatascience.com/attention-models-in-nlp-a-quick-introduction-2593c1fe35eb][Attention models in NLP a quick introduction | by Manish Chablani | Towards D...]]
 - [[https://www.youtube.com/watch?v=S27pHKBEp30][LSTM is dead. Long Live Transformers! - YouTube]]
@@ -78,7 +122,6 @@ from the encoder output z."
 - [[https://github.com/google-research/bert][GitHub - google-research/bert: TensorFlow code and pre-trained models for BERT]]
 - [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
 
-
 * steps
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
@@ -87,7 +130,8 @@ DEADLINE: <2021-02-05 Fri>
 - file:./tex/proposalbibliography.bib
 
 *** DONE project proposal latex template
-*** TODO create master bibtex file
-*** TODO narrow down list of papers to reference in proposal
+*** DONE create master bibtex file
+*** TODO understand positional embeddings
 *** TODO understand attention
 *** TODO understand how CNN's seem to replace RNN for sequences
+*** TODO narrow down list of papers to reference in proposal
