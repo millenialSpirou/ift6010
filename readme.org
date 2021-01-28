@@ -64,8 +64,8 @@ structure modeled by recurrent net- works,"
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
 
-file:./tex/proposaltemplate.tex
-file:./tex/proposalbibliography.bib
+- file:./tex/proposaltemplate.tex
+- file:./tex/proposalbibliography.bib
 
 *** DONE project proposal latex template
 *** TODO create master bibtex file
