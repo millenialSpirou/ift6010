@@ -1,0 +1,119 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/fredericb/udem/nlp/project/readme.org
+
+
+* easier/pop links
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-30 Sat 21:21
+  :ARCHIVE_FILE: ~/udem/nlp/project/readme.org
+  :ARCHIVE_OLPATH: ressources
+  :ARCHIVE_CATEGORY: readme
+  :END:
+
+- positional encoding
+- [[https://kazemnejad.com/blog/transformer_architecture_positional_encoding/][Transformer Architecture: The Positional Encoding - Amirhossein Kazemnejad's ...]]
+
+- attention
+  + [[https://towardsdatascience.com/attention-models-in-nlp-a-quick-introduction-2593c1fe35eb][Attention models in NLP a quick introduction | by Manish Chablani | Towards D...]]
+  + [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
+  + [[https://theaisummer.com/attention/][How Attention works in Deep Learning: understanding the attention mechanism i...]]
+
+- videos
+  + [[https://www.youtube.com/watch?v=S27pHKBEp30][LSTM is dead. Long Live Transformers! - YouTube]]
+
+* Convolutional Sequence To Sequence Learning
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-30 Sat 22:13
+  :ARCHIVE_FILE: ~/udem/nlp/project/readme.org
+  :ARCHIVE_OLPATH: ressources/arxiv links
+  :ARCHIVE_CATEGORY: readme
+  :END:
+- [[https://arxiv.org/abs/1705.03122][arxiv Convolutional sequence to sequence learning]] :
+- file:./papers/convolutionalsequencetosequencelearning.pdf
+
+*This paper contains Positional Encoding which used by transformer*
+*Two papers are extensively referenced: (Bahdanau et al., 2014; Luong et al., 2015)*
+
+"The dominant approach to date encodes the input sequence with a se- ries of
+bi-directional recurrent neural networks (RNN) and generates a variable length
+output with another set of de- coder RNNs, both of which interface via a
+*soft-attention mechanism* (Bahdanau et al., 2014; Luong et al., 2015)."
+
+"Compared to recurrent layers, convolutions create representations for fixed
+size contexts, however, the effective context size of the network can easily
+be made larger by stacking several layers on top of each other. This allows to
+precisely control the maximum length of dependencies to be modeled."
+
+"Convolutional networks do not depend on the computations of the previous time
+step and therefore allow parallelization over every element in a sequence.
+This contrasts with RNNs which maintain a hidden state of the entire past that
+prevents parallel computation within a sequence."
+
+"Multi-layer convolutional neural networks create hierarchi- cal representations
+over the input sequence in which nearby input elements interact at lower layers
+while distant ele- ments interact at higher layers. Hierarchical structure pro-
+vides a shorter path to capture long-range dependencies compared to the chain
+structure modeled by recurrent net- works,"
+
+``In this paper we propose an architecture for sequence to se-
+quence modeling that is entirely convolutional. Our model
+is equipped with gated linear units (Dauphin et al., 2016)
+and residual connections (He et al., 2015a). We also use
+attention in every decoder layer and demonstrate that each
+attention layer only adds a negligible amount of overhead.
+The combination of these choices enables us to tackle large
+scale problems''
+
+``The encoder RNN processes an input sequence x =
+$(x_1 , \ldots , x_m )$ of m elements and returns state representa-
+tions $z = (z_1, \ldots , z_m )$. The decoder RNN takes z and
+generates the output sequence $y = (y 1 , \ldots , y_n )$ left to
+right, one element at a time. To generate output $y_{i+1}$ , the
+decoder computes a new hidden state $h_{i+1}$ based on the
+previous state $h_i$ , an embedding $g_i$ of the previous target
+language word $y_i$ , as well as a conditional input $c_i$ derived
+from the encoder output z."
+
+``Models without attention consider only the final encoder
+state z m by setting c i = z m for all i (Cho et al., 2014), or
+simply initialize the first decoder state with z m (Sutskever
+et al., 2014), in which case c i is not used. Architectures
+with attention *(Bahdanau et al., 2014; Luong et al., 2015)*
+compute c i as a weighted sum of (z 1 . . . . , z m ) at each time
+step. The weights of the sum are referred to as attention
+scores and allow the network to focus on different parts of
+the input sequence as it generates the output sequences. At-
+tention scores are computed by essentially comparing each
+encoder state z j to a combination of the previous decoder
+state h i and the last prediction y i ; the result is normalized
+to be a distribution over input elements."
+
+
+* TODO understand how CNN's seem to replace RNN for sequences
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-30 Sat 22:14
+  :ARCHIVE_FILE: ~/udem/nlp/project/readme.org
+  :ARCHIVE_OLPATH: steps/project proposal
+  :ARCHIVE_CATEGORY: readme
+  :ARCHIVE_TODO: TODO
+  :END:
+
+* DONE create master bibtex file
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-30 Sat 22:14
+  :ARCHIVE_FILE: ~/udem/nlp/project/readme.org
+  :ARCHIVE_OLPATH: steps/project proposal
+  :ARCHIVE_CATEGORY: readme
+  :ARCHIVE_TODO: DONE
+  :END:
+
+* DONE project proposal latex template
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-30 Sat 22:14
+  :ARCHIVE_FILE: ~/udem/nlp/project/readme.org
+  :ARCHIVE_OLPATH: steps/project proposal
+  :ARCHIVE_CATEGORY: readme
+  :ARCHIVE_TODO: DONE
+  :END:
