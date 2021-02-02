@@ -39,7 +39,7 @@
 
 
 * Neural machine translation by jointly learning to align and translate
-note: best first paper to read
+*note: best first paper to read*
 ** intro
 
 #+begin_quote
@@ -78,9 +78,7 @@ a translation (Sec.  3.1).
 #+end_quote
 
 #+attr_org: :width 700
-[[./decodergeneraldescritptionAlignment.png]]
-
-
+[[./tex/illustrations/decodergeneraldescritptionAlignment.png]]
 Personnal summary:
 
 Each (hidden) state of the decoder RNN depends on a context vector. This context vector
@@ -105,9 +103,24 @@ as input.
 #+end_src
 
 
-* Attention is all you need
-** general architecture
-** multiheaded attention
+* TODO Attention is all you need
+** self (multi-head) attention
+#+attr_org: :width 800
+[[./tex/illustrations/transformerSelfAttention.png]]
+
+#+attr_org: :width 800
+[[./tex/illustrations/transformerscaleddotproduct.png]]
+
+#+begin_quote
+The two most commonly used attention functions are additive attention [2], and
+dot-product (multi- plicative) attention. Dot-product attention is identical to
+our algorithm, except for the scaling factor of √ 1 d . Additive attention
+computes the compatibility function using a feed-forward network with k a single
+hidden layer. While the two are similar in theoretical complexity, dot-product
+attention is much faster and more space-efficient in practice, since it can be
+implemented using highly optimized matrix multiplication code.
+#+end_quote
+
 ** ref
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
 - file:./papers/attentionIsAllYouNeed.pdf
@@ -135,23 +148,36 @@ as input.
 #+end_src
 
 
-* Attention in Natural Language Processing
 
-** intro
+* TODO The illustrated transformer
+** ref
+[[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
+
+
+* transformer code
+** ref
+- [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
+- [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
+- [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
+
+
+* attention concept
+** Attention in Natural Language Processing
+*** intro
 Four dimensions to the taxonomy:
 - the representation of the input,
 - the compatibility function,
 - the distribution function,
 - the multiplicity of the input and/or output.
 
-** attention models
+*** attention models
 #+attr_org: :width 700
-[[./coreAttentionModel.png]]
+[[./tex/illustrations/coreAttentionModel.png]]
 
 #+attr_org: :width 800
-[[./generaelAttentionModel.png]]
+[[./tex/illustrations/generaelAttentionModel.png]]
 
-** use of attention
+*** use of attention
 #+begin_quote
 Attention enables us to estimate the relevance of the input
 elements as well as to combine said elements into a com-
@@ -206,8 +232,7 @@ interactions between the elements of such sequences, rather
 than by applying a more rigid a priori defined model.
 #+end_quote
 
-
-** taxonomy for attention models
+*** taxonomy for attention models
 #+begin_quote
 In NLP-related tasks, generally, K and V are representations
 of parts of documents, such as sequences of characters, words,
@@ -249,9 +274,7 @@ information regarding the relationship between the elements inside the sequence.
 Modern text-sequence generation systems often rely on this approach
 #+end_quote
 
-
-
-** hiarchical attention
+*** hiarchical attention
 #+begin_quote
 Hierarchical-Input Architectures: In some tasks, portions
 of input data can be meaningfully grouped together into higher
@@ -304,8 +327,7 @@ a second application of the attention mechanism over D, with
 the keys being the document’s word embeddings K W .
 #+end_quote
 
-
-** ref
+*** ref
 - [[https://arxiv.org/abs/1902.02181][{1902.02181} Attention in Natural Language Processing]]
 - file:~/udem/nlp/project/papers/1902.02181.pdf
 #+begin_src tex
@@ -327,15 +349,14 @@ the keys being the document’s word embeddings K W .
 }
 #+end_src
 
-
-* attention? attention!
+** attention? attention!
 *Note: difficult for now might point to fancy improvements to consider in the future*
-** different mechanisms
+*** different mechanisms
 #+name: A family of attention mechanisms
 #+ATTR_ORG: :width 700
-[[./afamilyofattentionmechanisms.png]]
+[[./tex/illustrations/afamilyofattentionmechanisms.png]]
 
-** self attention
+*** self attention
 #+begin_quote
 Self-attention, also known as intra-attention, is an attention mechanism
 relating different positions of a single sequence in order to compute a
@@ -365,12 +386,13 @@ show and tell paper: [[https://arxiv.org/abs/1502.03044][{1502.03044} Show, Atte
   + Pro: less calculation at the inference time.
   + Con: the model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. (Luong, et al., 2015)
 
-** global vs local attention
+*** global vs local attention
 #+name: global vs local attention
 #+attr_org: :width 700
-[[./globalvslocalattention.png]]
+[[./tex/illustrations/globalvslocalattention.png]]
+
 reference: [[https://arxiv.org/abs/1508.04025][{1508.04025} Effective Approaches to Attention-based Neural Machine Translation]]
-** multi-head self attention: key value query
+*** multi-head self attention: key value query
 *important*
 #+begin_quote
 The transformer views the encoded representation of the input as a
@@ -383,10 +405,10 @@ of keys and values.
 #+end_quote
 
 #+attr_org: :width 700
-[[./transformerscaleddotproduct.png]]
+[[./tex/illustrations/transformerscaleddotproduct.png]]
 
 #+attr_org: :width 700
-[[./multiheadselfattention.png]]
+[[./tex/illustrations/multiheadselfattention.png]]
 reference: transformer paper
 
 *important*
@@ -402,8 +424,8 @@ to jointly attend to information from different representation subspaces at
 different positions. With a single attention head, averaging inhibits this.”
 #+end_quote
 
-** TODO snail
-** ref
+*** TODO snail
+*** ref
 - [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
 #+begin_src tex
 @article{weng2018attention,
@@ -416,9 +438,27 @@ different positions. With a single attention head, averaging inhibits this.”
 #+end_src
 
 
+* steps
+** TODO project proposal
+DEADLINE: <2021-02-05 Fri>
+
+- file:./tex/proposaltemplate.tex
+- file:./tex/proposalbibliography.bib
+
+*** DONE understand paper: Translation byu jointly learning to align and translate
+*** DONE understand transformer
+**** DONE understand multi-headed attention
+*** TODO read on more efficient transformers
+*** TODO narrow down list of papers to reference in proposal
+
+** TODO understand code of transformer
+** TODO understand training for question answering
+** TODO implement albert for Squad
+** TODO read on more advanced topics like meta learning
+
+
 * ressources
 ** arxiv links
-*** to read and summarize
 - [[https://arxiv.org/abs/1810.04805][arxiv BERT]]
 - [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
 - [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
@@ -450,8 +490,8 @@ different positions. With a single attention head, averaging inhibits this.”
   + [[https://www.youtube.com/watch?v=-QH8fRhqFHM][The Narrated Transformer Language Model - YouTube]]
   + [[https://www.youtube.com/watch?v=S27pHKBEp30][LSTM is dead. Long Live Transformers! - YouTube]]
 
-** github links
 
+** github links
 - [[https://github.com/google-research/bert][GitHub - google-research/bert: TensorFlow code and pre-trained models for BERT]]
 - [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
 
@@ -461,19 +501,3 @@ different positions. With a single attention head, averaging inhibits this.”
 - [[https://www.overleaf.com/learn/latex/Inserting_Images][Inserting Images - Overleaf, Online LaTeX Editor]]
 - [[https://github.com/hlissner/doom-emacs][GitHub - hlissner/doom-emacs: An Emacs framework for the stubborn martian hacker]]
 - [[https://orgmode.org/worg/org-tutorials/][Org tutorials]]
-
-
-* steps
-** TODO project proposal
-DEADLINE: <2021-02-05 Fri>
-
-- file:./tex/proposaltemplate.tex
-- file:./tex/proposalbibliography.bib
-
-*** DONE understand paper: Translation byu jointly learning to align and translate
-*** TODO understand transformer
-**** TODO understand multi-headed attention
-*** TODO narrow down list of papers to reference in proposal
-*** TODO implement albert for Squad
-*** TODO read on more efficient transformers
-*** TODO read on more advanced topics like meta learning
