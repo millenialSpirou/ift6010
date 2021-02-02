@@ -2,8 +2,44 @@
 #+author: frederic boileau
 #+STARTUP: inlineimages
 
+* notes
+- *Albert, a light version of BERT already surpasses humans in SquAd*
+
+- The first paper on attention: Jointly learning to align and translate
+  still uses RNN, but attention mechanism from the decoder to the encoder
+  hiddens states. It's a good introduction to the topic and has *historical value*
+
+- Transformer is huge and hard to grasp it all, the hardest and most important
+  part is the *multi headed attention*. I'm still trying to understand it
+
+- I propose we do simple albert for implementation and Lit reviews
+  on more advanced topics. I predict there is gonna be a gap between
+  SOA stuff we can implement on a specific task like squad and papers
+  the prof will be interested in reading summaries of. So my idea is
+  to do both in parallel. If we're lucky we have time to implement
+  the more fancy stuff. If it's interesting enough the prof might give
+  us an extension.
+
+- Ideas for the more fancy stuff than squad with albert in order of /perceived/ difficulty:
+
+  + Squad is solved but there is always more room to *optimize training time*
+    More efficient version of transformers could be implemented or reviewed,
+    I want to read -[[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]] when I understand
+    transformer.
+
+  + tackling something more difficult than Squad might be interesting since
+    Albert beats humans I think the prof would consider it a /solved/ problem.
+
+  + The paper Attention in Natural Language Processing provides a classification
+    of different attention mechanisms by four criteria. It might be interesting
+    to investigate the different types of attentions, for example *hierarchical
+    attention*
+
+  + A lit review on SNAIL and meta-learning might be interesting, see attention? attention!
+
 
 * Neural machine translation by jointly learning to align and translate
+note: best first paper to read
 ** intro
 
 #+begin_quote
@@ -70,6 +106,8 @@ as input.
 
 
 * Attention is all you need
+** general architecture
+** multiheaded attention
 ** ref
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
 - file:./papers/attentionIsAllYouNeed.pdf
@@ -97,7 +135,201 @@ as input.
 #+end_src
 
 
+* Attention in Natural Language Processing
+
+** intro
+Four dimensions to the taxonomy:
+- the representation of the input,
+- the compatibility function,
+- the distribution function,
+- the multiplicity of the input and/or output.
+
+** attention models
+#+attr_org: :width 700
+[[./coreAttentionModel.png]]
+
+#+attr_org: :width 800
+[[./generaelAttentionModel.png]]
+
+** use of attention
+#+begin_quote
+Attention enables us to estimate the relevance of the input
+elements as well as to combine said elements into a com-
+pact representation—the context vector—that condenses the
+characteristics of the most relevant elements. Because the
+context vector is smaller than the original input, it requires
+fewer computational resources to be processed at later stages,
+yielding a computational gain.
+#+end_quote
+
+#+begin_quote
+When the generation of a text sequence is required, as in
+machine translation, attention enables us to make use of a
+dynamic representation of the input sequence, whereby the
+whole input does not have to be encoded into a single vector.
+At each time step, the encoding is tailored according to the
+task, and in particular, q represents an embedding of the
+previous state of the decoder. More generally, the possibility to
+perform attention with respect to a query q allows us to create
+representations of the input that depend on the task context,
+creating specialized embeddings. This is particularly useful in
+tasks, such as sentiment analysis and information extraction.
+#+end_quote
+
+#+begin_quote
+Since attention can create contextual representations of an
+element, it can also be used to build sequence-to-sequence
+annotators, without resorting to RNNs or convolutional neural
+networks (CNNs), as suggested by Vaswani et al. [36],
+who rely on an attention mechanism to obtain a whole
+encoder/decoder architecture.
+#+end_quote
+
+#+begin_quote
+Attention can also be used as a tool for selecting specific
+words. This could be the case, for example, in dependence
+parsing [97] and in cloze question-answering tasks [66], [70].
+In the former case, attention can be applied to a sentence in
+order to predict dependences. In the latter, attention can be
+applied to a textual document or to a vocabulary to perform a
+classification among the words.
+#+end_quote
+
+#+begin_quote
+Finally, attention can come in handy when multiple inter-
+acting input sequences have to be considered in combination.
+In tasks such as question answering, where the input consists
+of two textual sequences—for instance, the question and
+the document or the question and the possible answers—an
+input encoding can be obtained by considering the mutual
+interactions between the elements of such sequences, rather
+than by applying a more rigid a priori defined model.
+#+end_quote
+
+
+** taxonomy for attention models
+#+begin_quote
+In NLP-related tasks, generally, K and V are representations
+of parts of documents, such as sequences of characters, words,
+or sentences. These components are usually embedded into
+continuous vector representations and then processed through
+key/value annotation functions (called kaf and vaf in Fig. 4),
+so as to obtain a hidden representation resulting in K and V .
+Typical annotation functions are RNN layers such as gated
+recurrent units (GRUs), long short-term memory networks
+(LSTMs), and CNNs. In this way, k i and v i represent an input
+element relative to its local context.
+#+end_quote
+
+#+begin_quote
+We made a distinction between two input sources: the input sequence, represented
+by K and V , and the query, represented by q. However, some architectures
+compute attention only based on the input sequence. These architectures are
+known as self-attentive or intraattentive mod- els.
+#+end_quote
+
+
+#+begin_quote
+The commonest one amounts to the application of multiple steps of attention to a
+vector K , using the elements k t of the same vector as query at each step [18],
+[36]. At each step, the weights a i t represent the relevance of k i with
+respect to k t , yielding d K separate context embeddings, c t , one per key.
+#+end_quote
+
+#+begin_quote
+Attention could thus be used as a sequence-to-sequence model, as an alternative
+to CNNs or RNNs (see Fig. 5). In this way, each element of the new sequence may
+be influenced by elements of the whole input, incorporating contextual
+information without any locality boundaries. This is especially interesting
+since it could overcome a well-known shortcoming of RNNs: their limited ability
+of modeling long-range dependences [140]. For each element k t , the resulting
+distribution of the weights a t should give more emphasis to words that strongly
+relate to k t . The analysis of these distributions will, therefore, provide
+information regarding the relationship between the elements inside the sequence.
+Modern text-sequence generation systems often rely on this approach
+#+end_quote
+
+
+
+** hiarchical attention
+#+begin_quote
+Hierarchical-Input Architectures: In some tasks, portions
+of input data can be meaningfully grouped together into higher
+level structures, where hierarchical-input attention models can
+be exploited to subsequently apply multiple attention modules
+at different levels of the composition, as shown in Fig. 6.
+Consider, for instance, data naturally associated with a
+two-level semantic structure, such as characters (the “micro”
+elements) forming words (the “macro” elements) or words
+forming sentences. Attention can be first applied to the rep-
+resentations of micro elements k i , so as to build aggregate
+representations k j of the macro elements, such as context
+vectors. Attention could then be applied again to the sequence
+of macroelement embeddings, in order to compute an embed-
+ding for the whole document D. With this model, attention
+first highlights the most relevant micro elements within each
+macro element and, then, the most relevant macro elements in
+the document. For instance, Yang et al. [52] applied attention
+first at word level, for each sentence in turn, to compute
+sentence embeddings. Then, they applied attention again on
+the sentence embeddings to obtain a document representation.
+7
+With reference to the model introduced in Section II, embed-
+dings are computed for each sentence in D, and then, all
+such embeddings are used together as keys K to compute the
+document-level weights a and eventually D’s context vector c.
+The hierarchy can be extended further. For instance, Wu et al.
+[141] added another layer on top, applying attention also at
+the document level.
+If representations for both micro- and macro-level elements
+are available, one can compute attention on one level and
+then exploit the result as a key or query to compute atten-
+tion on the other, yielding two different microrepresenta-
+tion/macrorepresentation of D. In this way, attention enables
+us to identify the most relevant elements for the task at both
+levels. The attention-via-attention model by Zhao and Zhang
+[43] defines a hierarchy with characters at the micro level and
+words at the macro level. Both characters and words act as
+keys. Attention is first computed on word embeddings K W ,
+thus obtaining a document representation in the form of a
+context vector c W , which in turn acts as a query q to guide the
+application of character-level attention to the keys (character
+embeddings) K C , yielding a context vector c for D.
+Ma et al. [113] identified a single “target” macro-object T
+as a set of words, which do not necessarily have to form a
+sequence in D, and then used such a macro-object as keys,
+K T . The context vector c T produced by a first application of
+the attention mechanism on K T is then used as query q in
+a second application of the attention mechanism over D, with
+the keys being the document’s word embeddings K W .
+#+end_quote
+
+
+** ref
+- [[https://arxiv.org/abs/1902.02181][{1902.02181} Attention in Natural Language Processing]]
+- file:~/udem/nlp/project/papers/1902.02181.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1902-02181,
+  author    = {Andrea Galassi and
+               Marco Lippi and
+               Paolo Torroni},
+  title     = {Attention, please! {A} Critical Review of Neural Attention Models
+               in Natural Language Processing},
+  journal   = {CoRR},
+  volume    = {abs/1902.02181},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1902.02181},
+  archivePrefix = {arXiv},
+  eprint    = {1902.02181},
+  timestamp = {Wed, 25 Sep 2019 17:52:35 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1902-02181.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
+
+
 * attention? attention!
+*Note: difficult for now might point to fancy improvements to consider in the future*
 ** different mechanisms
 #+name: A family of attention mechanisms
 #+ATTR_ORG: :width 700
@@ -186,10 +418,6 @@ different positions. With a single attention head, averaging inhibits this.”
 
 * ressources
 ** arxiv links
-*** Attention in natural language processing
-**** ref
-- [[https://arxiv.org/abs/1902.02181][{1902.02181} Attention in Natural Language Processing]]
-- file:./papers/1902.02181.pdf
 *** to read and summarize
 - [[https://arxiv.org/abs/1810.04805][arxiv BERT]]
 - [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
@@ -197,6 +425,14 @@ different positions. With a single attention head, averaging inhibits this.”
 - [[https://arxiv.org/abs/2006.15595][{2006.15595} Rethinking Positional Encoding in Language Pre-training]]
 
 ** non academic links
+
+- easier explanations of transformer
+  + [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
+
+- Transformer (with code)
+  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
+  + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
+  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
 
 - attention
   + [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
@@ -209,12 +445,9 @@ different positions. With a single attention head, averaging inhibits this.”
 - machine translation through alignment
   + [[https://www.tensorflow.org/tutorials/text/nmt_with_attention][Neural machine translation with attention  |  TensorFlow Core]]
 
-- Transformer (with code)
-  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
-  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
-  + [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
-
 - videos
+  + [[https://www.youtube.com/watch?v=rBCqOTEfxvg][Attention is all you need; Attentional Neural Network Models | Łukasz Kaiser ...]]
+  + [[https://www.youtube.com/watch?v=-QH8fRhqFHM][The Narrated Transformer Language Model - YouTube]]
   + [[https://www.youtube.com/watch?v=S27pHKBEp30][LSTM is dead. Long Live Transformers! - YouTube]]
 
 ** github links
@@ -229,6 +462,7 @@ different positions. With a single attention head, averaging inhibits this.”
 - [[https://github.com/hlissner/doom-emacs][GitHub - hlissner/doom-emacs: An Emacs framework for the stubborn martian hacker]]
 - [[https://orgmode.org/worg/org-tutorials/][Org tutorials]]
 
+
 * steps
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
@@ -236,8 +470,10 @@ DEADLINE: <2021-02-05 Fri>
 - file:./tex/proposaltemplate.tex
 - file:./tex/proposalbibliography.bib
 
+*** DONE understand paper: Translation byu jointly learning to align and translate
 *** TODO understand transformer
-**** TODO understand attention
-**** TODO understand positional embeddings
-
+**** TODO understand multi-headed attention
 *** TODO narrow down list of papers to reference in proposal
+*** TODO implement albert for Squad
+*** TODO read on more efficient transformers
+*** TODO read on more advanced topics like meta learning
