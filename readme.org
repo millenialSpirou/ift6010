@@ -2,8 +2,67 @@
 #+author: frederic boileau
 #+STARTUP: inlineimages
 
-* notes
-- The Steps section is the TODO list.
+* attention
+
+- [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
+
+*** machine translation
+#+name: A family of attention mechanisms
+#+ATTR_ORG: :width 700
+[[./afamilyofattentionmechanisms.png]]
+
+*** self attention
+#+begin_quote
+Self-attention, also known as intra-attention, is an attention mechanism
+relating different positions of a single sequence in order to compute a
+representation of the same sequence. It has been shown to be very useful in
+machine reading, abstractive summarization, or image description generation.
+#+end_quote
+
+#+begin_quote
+In the show, attend and tell paper, attention mechanism is applied to images to
+generate captions. The image is first encoded by a CNN to extract features. Then
+a LSTM decoder consumes the convolution features to produce descriptive words
+one by one, where the weights are learned through attention. The visualization
+of the attention weights clearly demonstrates which regions of the image the
+model is paying attention to so as to output a certain word.
+#+end_quote
+show and tell paper: [[https://arxiv.org/abs/1502.03044][{1502.03044} Show, Attend and Tell: Neural Image Caption Generation with Visu...]]
+
+- Soft Attention: the alignment weights are learned and placed “softly” over all
+  patches in the source image; essentially the same type of attention as in
+  Bahdanau et al., 2015.
+
+  + Pro: the model is smooth and differentiable.
+  + Con: expensive when the source input is large.
+
+- Hard Attention: only selects one patch of the image to attend to at a time.
+
+  + Pro: less calculation at the inference time.
+  + Con: the model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. (Luong, et al., 2015)
+
+*** global vs local attention
+#+name: global vs local attention
+#+attr_org: :width 700
+[[./globalvslocalattention.png]]
+reference: [[https://arxiv.org/abs/1508.04025][{1508.04025} Effective Approaches to Attention-based Neural Machine Translation]]
+*** multi-head self attention: key value query
+#+begin_quote
+The transformer views the encoded representation of the input as a
+set of key-value pairs, (K,V), both of dimension n (input sequence length);
+
+in the context of NMT, both the keys and values are the encoder hidden states.
+In the decoder, the previous output is compressed into a query (Q of
+dimension m) and the next output is produced by mapping this query and the set
+of keys and values.
+#+end_quote
+
+#+attr_org: :width 700
+[[./transformerscaleddotproduct.png]]
+
+#+attr_org: :width 700
+[[./multiheadselfattention.png]]
+reference: transformer paper
 
 * ressources
 ** arxiv links
@@ -77,53 +136,8 @@ a subset of these vectors adaptively while decoding the translation.  ''
 - [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
 - [[https://www.overleaf.com/learn/latex/bibliography_management_with_bibtex][Bibliography management with bibtex - Overleaf, Online LaTeX Editor]]
 - [[https://www.overleaf.com/learn/latex/Inserting_Images][Inserting Images - Overleaf, Online LaTeX Editor]]
-
-* attention
-
-- [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
-
-*** machine translation
-#+name: A family of attention mechanisms
-#+ATTR_ORG: :width 700
-[[./afamilyofattentionmechanisms.png]]
-
-*** self attention
-#+begin_quote
-Self-attention, also known as intra-attention, is an attention mechanism
-relating different positions of a single sequence in order to compute a
-representation of the same sequence. It has been shown to be very useful in
-machine reading, abstractive summarization, or image description generation.
-#+end_quote
-
-#+begin_quote
-In the show, attend and tell paper, attention mechanism is applied to images to
-generate captions. The image is first encoded by a CNN to extract features. Then
-a LSTM decoder consumes the convolution features to produce descriptive words
-one by one, where the weights are learned through attention. The visualization
-of the attention weights clearly demonstrates which regions of the image the
-model is paying attention to so as to output a certain word.
-#+end_quote
-show and tell paper: [[https://arxiv.org/abs/1502.03044][{1502.03044} Show, Attend and Tell: Neural Image Caption Generation with Visu...]]
-
-- Soft Attention: the alignment weights are learned and placed “softly” over all
-  patches in the source image; essentially the same type of attention as in
-  Bahdanau et al., 2015.
-
-  + Pro: the model is smooth and differentiable.
-  + Con: expensive when the source input is large.
-
-- Hard Attention: only selects one patch of the image to attend to at a time.
-
-  + Pro: less calculation at the inference time.
-  + Con: the model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. (Luong, et al., 2015)
-
-
-*** global vs local attention
-[[https://arxiv.org/abs/1508.04025][{1508.04025} Effective Approaches to Attention-based Neural Machine Translation]]
-#+name: global vs local attention
-#+attr_org: :width 700
-[[./globalvslocalattention.png]]
-*** key value query
+- [[https://github.com/hlissner/doom-emacs][GitHub - hlissner/doom-emacs: An Emacs framework for the stubborn martian hacker]]
+- [[https://orgmode.org/worg/org-tutorials/][Org tutorials]]
 
 * steps
 ** TODO project proposal
