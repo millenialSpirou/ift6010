@@ -2,16 +2,67 @@
 #+author: frederic boileau
 #+STARTUP: inlineimages
 
-* attention
 
-- [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
+* Neural machine translation by jointly learning to align and translate (Bahdanau et all 2014)
 
-*** machine translation
+** intro
+
+#+begin_quote
+In this paper, we conjecture that the use of a fixed-length vector is a
+bottleneck in improving the performance of this basic encoder–decoder architec-
+ture, and propose to extend this by allowing a model to automatically
+(soft-)search for parts of a source sentence that are relevant to predicting a
+target word, without having to form these parts as a hard segment explicitly.
+#+end_quote
+
+#+begin_quote
+Cho et al. (2014b) showed that indeed the performance of a basic
+encoder–decoder deteriorates rapidly as the length of an input sentence
+increases.
+#+end_quote
+
+#+begin_quote
+Each time the proposed model generates a word in a translation, it
+(soft-)searches for a set of positions in a source sentence where the most
+relevant information is concentrated. The model then predicts a target word
+*based on the context vectors associated with these source positions*
+*and all the previous generated target words.*
+#+end_quote
+
+#+begin_quote
+it [the model] encodes the input sentence into a sequence of vectors and chooses
+a subset of these vectors adaptively while decoding the translation.'
+#+end_quote
+
+** learning to align and translate
+#+begin_quote
+The new architecture consists of a bidirectional RNN as an encoder (Sec. 3.2)
+and a decoder that emulates searching through a source sentence during decoding
+a translation (Sec.  3.1).
+#+end_quote
+
+** ref
+- [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
+- file:./papers/jointlyLearningToAlignAndTranslate.pdf
+#+begin_src tex
+@misc{bahdanau2016neural,
+      title={Neural Machine Translation by Jointly Learning to Align and Translate},
+      author={Dzmitry Bahdanau and Kyunghyun Cho and Yoshua Bengio},
+      year={2016},
+      eprint={1409.0473},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+#+end_src
+
+
+* attention? attention!
+** different mechanisms
 #+name: A family of attention mechanisms
 #+ATTR_ORG: :width 700
 [[./afamilyofattentionmechanisms.png]]
 
-*** self attention
+** self attention
 #+begin_quote
 Self-attention, also known as intra-attention, is an attention mechanism
 relating different positions of a single sequence in order to compute a
@@ -41,12 +92,13 @@ show and tell paper: [[https://arxiv.org/abs/1502.03044][{1502.03044} Show, Atte
   + Pro: less calculation at the inference time.
   + Con: the model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. (Luong, et al., 2015)
 
-*** global vs local attention
+** global vs local attention
 #+name: global vs local attention
 #+attr_org: :width 700
 [[./globalvslocalattention.png]]
 reference: [[https://arxiv.org/abs/1508.04025][{1508.04025} Effective Approaches to Attention-based Neural Machine Translation]]
-*** multi-head self attention: key value query
+** multi-head self attention: key value query
+*important*
 #+begin_quote
 The transformer views the encoded representation of the input as a
 set of key-value pairs, (K,V), both of dimension n (input sequence length);
@@ -64,39 +116,40 @@ of keys and values.
 [[./multiheadselfattention.png]]
 reference: transformer paper
 
+*important*
+#+begin_quote
+Rather than only computing the attention once, the multi-head mechanism runs
+through the scaled dot-product attention multiple times in parallel.
+
+The independent attention outputs are simply concatenated and linearly transformed
+into the expected dimensions.
+
+According to the paper, “multi-head attention allows the model
+to jointly attend to information from different representation subspaces at
+different positions. With a single attention head, averaging inhibits this.”
+#+end_quote
+
+** TODO snail
+** ref
+- [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
+#+begin_src tex
+@article{weng2018attention,
+  title   = "Attention? Attention!",
+  author  = "Weng, Lilian",
+  journal = "lilianweng.github.io/lil-log",
+  year    = "2018",
+  url     = "http://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html"
+}
+#+end_src
+
 * ressources
 ** arxiv links
-*** Neural machine translation by jointly learning to align and translate (Bahdanau et all 2014)
-- [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
-- file:./papers/jointlyLearningToAlignAndTranslate.pdf
-
-*Referenced a lot for attention mechanism*
-
-``In this paper, we conjecture that the use of a fixed-length vector is a
-bottleneck in improving the performance of this basic encoder–decoder architec-
-ture, and propose to extend this by allowing a model to automatically
-(soft-)search for parts of a source sentence that are relevant to predicting a
-target word, without having to form these parts as a hard segment explicitly.''
-
-``
-Cho et al. (2014b) showed that indeed the performance of a basic
-encoder–decoder deteriorates rapidly as the length of an input sentence
-increases.
-
-Each time the proposed model generates a word in a translation, it
-(soft-)searches for a set of positions in a source sentence where the most
-relevant information is concentrated. The model then predicts a target word
-*based on the context vectors associated with these source positions*
-*and all the previous generated target words.*
-
-it [the model] encodes the input sentence into a sequence of vectors and chooses
-a subset of these vectors adaptively while decoding the translation.  ''
-
 *** Attention in natural language processing
+**** ref
 - [[https://arxiv.org/abs/1902.02181][{1902.02181} Attention in Natural Language Processing]]
 - file:./papers/1902.02181.pdf
-
 *** Attention is all you need
+**** ref
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
 - file:./papers/attentionIsAllYouNeed.pdf
 
