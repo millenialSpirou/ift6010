@@ -40,9 +40,41 @@
   + A lit review on SNAIL and meta-learning might be interesting, see attention? attention!
 
 
-* Neural machine translation by jointly learning to align and translate
+* steps
+** TODO project proposal
+DEADLINE: <2021-02-05 Fri>
+
+- file:./tex/proposaltemplate.tex
+- file:./tex/proposalbibliography.bib
+
+*** DONE understand paper: Translation byu jointly learning to align and translate
+*** DONE understand transformer
+**** DONE understand multi-headed attention
+*** TODO get list of possible tasks and associated issues
+*** TODO email prof
+*** TODO understand BERT
+*** TODO understand how to use hugging face transformers library
+*** TODO read on more efficient transformers
+*** TODO narrow down list of papers to reference in proposal
+
+
+** towards midway report
+
+*** TODO understand code of transformer
+*** TODO get datasets and preprocessing
+*** TODO understand (fine-tunin) training for question answering
+*** TODO implement albert for Squad
+
+** final report
+
+*** TODO read on more advanced topics like meta learning
+
+
+* Annotated and understood links/articles
+
+** Neural machine translation by jointly learning to align and translate
 *note: best first paper to read*
-** intro
+*** intro
 
 #+begin_quote
 In this paper, we conjecture that the use of a fixed-length vector is a
@@ -71,7 +103,7 @@ it [the model] encodes the input sentence into a sequence of vectors and chooses
 a subset of these vectors adaptively while decoding the translation.'
 #+end_quote
 
-** learning to align and translate
+*** learning to align and translate
 
 #+begin_quote
 The new architecture consists of a bidirectional RNN as an encoder (Sec. 3.2)
@@ -90,7 +122,7 @@ are normalized to form a probability distribution through a sotfmax function. Al
 weights are the output of a simple feedforward network with the hidden states of the encoder
 as input.
 
-** ref
+*** ref
 - [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
 - file:./papers/jointlyLearningToAlignAndTranslate.pdf
 #+begin_src tex
@@ -105,14 +137,14 @@ as input.
 #+end_src
 
 
-* The illustrated transformer
-** ref
+** The illustrated transformer
+*** ref
 [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
 
 
-* Attention is all you need
-** introduction
-** self (multi-head) attention
+** Attention is all you need
+*** introduction
+*** self (multi-head) attention
 #+attr_org: :width 800
 [[./tex/illustrations/transformerSelfAttention.png]]
 
@@ -129,7 +161,7 @@ attention is much faster and more space-efficient in practice, since it can be
 implemented using highly optimized matrix multiplication code.
 #+end_quote
 
-** ref
+*** ref
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
 - file:./papers/attentionIsAllYouNeed.pdf
 #+begin_src tex
@@ -157,8 +189,8 @@ implemented using highly optimized matrix multiplication code.
 
 
 
-* BERT
-** introduction
+** BERT
+*** introduction
 
 #+begin_quote
 There are two existing strategies for apply-
@@ -210,7 +242,7 @@ Transformer. In addi- tion to the masked language model, we also use a “next
 sentence prediction” task that jointly pre- trains text-pair representations.
 #+end_quote
 
-** implementation intro
+*** implementation intro
 #+begin_quote
 There are two steps in our framework: pre-training and fine-tuning. During
 pretraining, the model is trained on unlabeled data over different pre-training
@@ -228,7 +260,7 @@ based on the original implementation described in Vaswani et al. (2017)
 
 see attention is all you need for architecture
 
-** input outpout representation
+*** input outpout representation
 
 #+begin_quote
 To make BERT handle a variety of down-stream tasks, our input representation is
@@ -249,8 +281,8 @@ or sentence B.
 #+attr_org: :width 700
 [[./tex/illustrations/bertInputRepresentation.png]]
 
-** pretraining
-*** task 1, masked LM
+*** pretraining
+**** task 1, masked LM
 #+begin_quote
 In order to train a deep bidirectional representation, we simply mask some
 percentage of the input tokens at random, and then predict those masked tokens.
@@ -260,7 +292,7 @@ hidden vectors corresponding to the mask tokens are fed into an output softmax
 over the vocabulary, as in a standard LM. In all of our experiments, we mask 15%
 of all WordPiece tokens in each sequence at random.
 #+end_quote
-*** task 2 next sentence prediction
+**** task 2 next sentence prediction
 #+begin_quote
 Many important downstream tasks such as Question Answering (QA) and Natural
 Language Inference (NLI) are based on understanding the relationship between
@@ -273,7 +305,7 @@ follows A (labeled as IsNext ), and 50% of the time it is a random sentence from
 the corpus (labeled as NotNext ).
 #+end_quote
 
-*** pretraining data
+**** pretraining data
 #+begin_quote
 The pre-training procedure largely follows the existing literature on language
 model pre-training. For the pre-training corpus we use the BooksCorpus (800M
@@ -283,7 +315,7 @@ criti- cal to use a document-level corpus rather than a shuffled sentence-level
 corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to
 extract long contiguous sequences.
 #+end_quote
-** fine tuning
+*** fine tuning
 
 #+begin_quote
 Fine-tuning is straightforward since the self- attention mechanism in the
@@ -313,7 +345,7 @@ Cloud TPU, or *a few hours on a GPU*, starting from the exact same pre-trained
 model. 7
 #+end_quote
 
-** ref
+*** ref
 - [[https://arxiv.org/abs/1810.04805][{1810.04805} BERT: Pre-training of Deep Bidirectional Transformers for Langua...]]
 - file:~/udem/nlp/project/papers/1810.04805.pdf
 
@@ -338,58 +370,22 @@ model. 7
 #+end_src
 
 
-* transformer code
-** ref
-- pretraining bert
-  + [[https://github.com/google-research/bert/issues/750][google-research/bert#750 Creating training set from Wikipedia data?]]
-  + [[https://towardsdatascience.com/preparing-the-data-for-transformer-pre-training-a-write-up-67a9dc0cae5a][Preparing the data for Transformer pre-training — a write-up | by Steven van ...]]
-
-- general transformer
-  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
-  + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
-  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
-
-
-* steps
-** TODO project proposal
-DEADLINE: <2021-02-05 Fri>
-
-- file:./tex/proposaltemplate.tex
-- file:./tex/proposalbibliography.bib
-
-*** DONE understand paper: Translation byu jointly learning to align and translate
-*** DONE understand transformer
-**** DONE understand multi-headed attention
-*** TODO understand BERT
-*** TODO read on more efficient transformers
-*** TODO find tweaks to BERT possible
-*** TODO narrow down list of papers to reference in proposal
-
-** TODO understand code of transformer
-** TODO understand how to use hugging face transformers library
-** TODO understand (fine-tunin) training for question answering
-** TODO implement albert for Squad
-** TODO read on more advanced topics like meta learning
-
-
-* looking further for lit review
-** attention concept
-*** Attention in Natural Language Processing
-**** intro
+** Attention in Natural Language Processing
+*** intro
 Four dimensions to the taxonomy:
 - the representation of the input,
 - the compatibility function,
 - the distribution function,
 - the multiplicity of the input and/or output.
 
-**** attention models
+*** attention models
 #+attr_org: :width 700
 [[./tex/illustrations/coreAttentionModel.png]]
 
 #+attr_org: :width 800
 [[./tex/illustrations/generaelAttentionModel.png]]
 
-**** use of attention
+*** use of attention
 #+begin_quote
 Attention enables us to estimate the relevance of the input
 elements as well as to combine said elements into a com-
@@ -444,7 +440,7 @@ interactions between the elements of such sequences, rather
 than by applying a more rigid a priori defined model.
 #+end_quote
 
-**** taxonomy for attention models
+*** taxonomy for attention models
 #+begin_quote
 In NLP-related tasks, generally, K and V are representations
 of parts of documents, such as sequences of characters, words,
@@ -486,7 +482,7 @@ information regarding the relationship between the elements inside the sequence.
 Modern text-sequence generation systems often rely on this approach
 #+end_quote
 
-**** hiarchical attention
+*** hiarchical attention
 #+begin_quote
 Hierarchical-Input Architectures: In some tasks, portions
 of input data can be meaningfully grouped together into higher
@@ -539,7 +535,7 @@ a second application of the attention mechanism over D, with
 the keys being the document’s word embeddings K W .
 #+end_quote
 
-**** ref
+*** ref
 - [[https://arxiv.org/abs/1902.02181][{1902.02181} Attention in Natural Language Processing]]
 - file:~/udem/nlp/project/papers/1902.02181.pdf
 #+begin_src tex
@@ -561,14 +557,15 @@ the keys being the document’s word embeddings K W .
 }
 #+end_src
 
-*** attention? attention!
+
+** attention? attention!
 *Note: difficult for now might point to fancy improvements to consider in the future*
-**** different mechanisms
+*** different mechanisms
 #+name: A family of attention mechanisms
 #+ATTR_ORG: :width 700
 [[./tex/illustrations/afamilyofattentionmechanisms.png]]
 
-**** self attention
+*** self attention
 #+begin_quote
 Self-attention, also known as intra-attention, is an attention mechanism
 relating different positions of a single sequence in order to compute a
@@ -598,13 +595,13 @@ show and tell paper: [[https://arxiv.org/abs/1502.03044][{1502.03044} Show, Atte
   + Pro: less calculation at the inference time.
   + Con: the model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. (Luong, et al., 2015)
 
-**** global vs local attention
+*** global vs local attention
 #+name: global vs local attention
 #+attr_org: :width 700
 [[./tex/illustrations/globalvslocalattention.png]]
 
 reference: [[https://arxiv.org/abs/1508.04025][{1508.04025} Effective Approaches to Attention-based Neural Machine Translation]]
-**** multi-head self attention: key value query
+*** multi-head self attention: key value query
 *important*
 #+begin_quote
 The transformer views the encoded representation of the input as a
@@ -636,8 +633,8 @@ to jointly attend to information from different representation subspaces at
 different positions. With a single attention head, averaging inhibits this.”
 #+end_quote
 
-**** TODO snail
-**** ref
+*** TODO snail
+*** ref
 - [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
 #+begin_src tex
 @article{weng2018attention,
@@ -648,6 +645,23 @@ different positions. With a single attention head, averaging inhibits this.”
   url     = "http://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html"
 }
 #+end_src
+
+
+* transformer code
+
+** ref
+- preprocessing data and datasets in general
+  + [[https://towardsdatascience.com/pre-processing-a-wikipedia-dump-for-nlp-model-training-a-write-up-3b9176fdf67][Pre-processing a Wikipedia dump for NLP model training — a write-up | by Stev...]]
+
+- pretraining bert
+  + [[https://d2l.ai/chapter_natural-language-processing-pretraining/bert-dataset.html][14.9. The Dataset for Pretraining BERT — Dive into Deep Learning 0.16.1 docum...]]
+  + [[https://github.com/google-research/bert/issues/750][google-research/bert#750 Creating training set from Wikipedia data?]]
+  + [[https://towardsdatascience.com/preparing-the-data-for-transformer-pre-training-a-write-up-67a9dc0cae5a][Preparing the data for Transformer pre-training — a write-up | by Steven van ...]]
+
+- general transformer
+  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
+  + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
+  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
 
 
 * ressources
