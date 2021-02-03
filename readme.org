@@ -5,6 +5,8 @@
 * notes
 - *Albert, a light version of BERT already surpasses humans in SquAd*
 
+- *Finetuning, not even pretraining BERT, can take hours with a solid gpu*
+
 - The first paper on attention: Jointly learning to align and translate
   still uses RNN, but attention mechanism from the decoder to the encoder
   hiddens states. It's a good introduction to the topic and has *historical value*
@@ -110,7 +112,6 @@ as input.
 
 * Attention is all you need
 ** introduction
-
 ** self (multi-head) attention
 #+attr_org: :width 800
 [[./tex/illustrations/transformerSelfAttention.png]]
@@ -157,7 +158,6 @@ implemented using highly optimized matrix multiplication code.
 
 
 * BERT
-
 ** introduction
 
 #+begin_quote
@@ -210,6 +210,108 @@ Transformer. In addi- tion to the masked language model, we also use a “next
 sentence prediction” task that jointly pre- trains text-pair representations.
 #+end_quote
 
+** implementation intro
+#+begin_quote
+There are two steps in our framework: pre-training and fine-tuning. During
+pretraining, the model is trained on unlabeled data over different pre-training
+tasks. For finetuning, the BERT model is first initialized with the
+pre-trained parameters, and all of the parameters are fine-tuned using labeled
+data from the downstream tasks. Each downstream task has separate fine-tuned
+models, even though they are initialized with the same pretrained parameters.
+#+end_quote
+
+#+begin_quote
+BERT’s model architecture is a multilayer bidirectional Transformer encoder
+based on the original implementation described in Vaswani et al. (2017)
+[Attention is all you need] and released in the tensor2tensor library.
+#+end_quote
+
+see attention is all you need for architecture
+
+** input outpout representation
+
+#+begin_quote
+To make BERT handle a variety of down-stream tasks, our input representation is
+able to unambiguously represent both a single sentence and a pair of sentences
+(e.g., <Question, Answer>) in one token sequence.
+#+end_quote
+
+#+begin_quote
+The first token of every sequence is always a special classification token
+([CLS]). The final hidden state corresponding to this token is used as the
+aggregate sequence representation for classification tasks. Sentence pairs are
+packed together into a single sequence. We differentiate the sentences in two
+ways. First, we separate them with a special token ([SEP]). Second, we add a
+learned embedding to every token indicating whether it belongs to sentence A
+or sentence B.
+#+end_quote
+
+#+attr_org: :width 700
+[[./tex/illustrations/bertInputRepresentation.png]]
+
+** pretraining
+*** task 1, masked LM
+#+begin_quote
+In order to train a deep bidirectional representation, we simply mask some
+percentage of the input tokens at random, and then predict those masked tokens.
+We refer to this procedure as a “masked LM” (MLM), although it is often referred
+to as a Cloze task in the literature (Taylor, 1953). In this case, the final
+hidden vectors corresponding to the mask tokens are fed into an output softmax
+over the vocabulary, as in a standard LM. In all of our experiments, we mask 15%
+of all WordPiece tokens in each sequence at random.
+#+end_quote
+*** task 2 next sentence prediction
+#+begin_quote
+Many important downstream tasks such as Question Answering (QA) and Natural
+Language Inference (NLI) are based on understanding the relationship between
+two sentences, which is not di- rectly captured by language modeling. In order
+to train a model that understands sentence relationships, we pre-train for a
+binarized next sentence prediction task that can be trivially generated from
+any monolingual corpus. Specifically, when choosing the sentences A and B for
+each pre-training example, 50% of the time B is the actual next sentence that
+follows A (labeled as IsNext ), and 50% of the time it is a random sentence from
+the corpus (labeled as NotNext ).
+#+end_quote
+
+*** pretraining data
+#+begin_quote
+The pre-training procedure largely follows the existing literature on language
+model pre-training. For the pre-training corpus we use the BooksCorpus (800M
+words) (Zhu et al., 2015) and English Wikipedia (2,500M words).  For Wikipedia
+we extract only the text passages and ignore lists, tables, and headers. It is
+criti- cal to use a document-level corpus rather than a shuffled sentence-level
+corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to
+extract long contiguous sequences.
+#+end_quote
+** fine tuning
+
+#+begin_quote
+Fine-tuning is straightforward since the self- attention mechanism in the
+Transformer al- lows BERT to model many downstream tasks— whether they involve
+single text or text pairs—by swapping out the appropriate inputs and outputs.
+For applications involving text pairs, a common pattern is to independently
+encode text pairs be- fore applying bidirectional cross attention, such as
+Parikh et al. (2016); Seo et al. (2017). BERT instead uses the self-attention
+mechanism to unify these two stages, as encoding a concatenated text pair with
+self-attention effectively includes bidi- rectional cross attention between two
+sentences.  For each task, we simply plug in the task- specific inputs and
+outputs into BERT and fine- tune all the parameters end-to-end. At the in- put,
+sentence A and sentence B from pre-training are analogous to (1) sentence pairs
+in paraphras- ing, (2) hypothesis-premise pairs in entailment, (3)
+question-passage pairs in question answering, and (4) a degenerate text-∅ pair
+in text classification or sequence tagging. At the output, the token rep-
+resentations are fed into an output layer for token- level tasks, such as
+sequence tagging or question answering, and the [CLS] representation is fed into
+an output layer for classification, such as entailment or sentiment analysis.
+Compared to pre-training, fine-tuning is relatively inexpensive.
+
+#+end_quote
+
+#+begin_quote
+All of the results in the paper can be replicated in at most 1 hour on a single
+Cloud TPU, or *a few hours on a GPU*, starting from the exact same pre-trained
+model. 7
+#+end_quote
 
 ** ref
 - [[https://arxiv.org/abs/1810.04805][{1810.04805} BERT: Pre-training of Deep Bidirectional Transformers for Langua...]]
@@ -235,30 +337,59 @@ sentence prediction” task that jointly pre- trains text-pair representations.
 }
 #+end_src
 
+
 * transformer code
 ** ref
-- [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
-- [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
-- [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
+- pretraining bert
+  + [[https://github.com/google-research/bert/issues/750][google-research/bert#750 Creating training set from Wikipedia data?]]
+  + [[https://towardsdatascience.com/preparing-the-data-for-transformer-pre-training-a-write-up-67a9dc0cae5a][Preparing the data for Transformer pre-training — a write-up | by Steven van ...]]
+
+- general transformer
+  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
+  + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
+  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
 
 
-* attention concept
-** Attention in Natural Language Processing
-*** intro
+* steps
+** TODO project proposal
+DEADLINE: <2021-02-05 Fri>
+
+- file:./tex/proposaltemplate.tex
+- file:./tex/proposalbibliography.bib
+
+*** DONE understand paper: Translation byu jointly learning to align and translate
+*** DONE understand transformer
+**** DONE understand multi-headed attention
+*** TODO understand BERT
+*** TODO read on more efficient transformers
+*** TODO find tweaks to BERT possible
+*** TODO narrow down list of papers to reference in proposal
+
+** TODO understand code of transformer
+** TODO understand how to use hugging face transformers library
+** TODO understand (fine-tunin) training for question answering
+** TODO implement albert for Squad
+** TODO read on more advanced topics like meta learning
+
+
+* looking further for lit review
+** attention concept
+*** Attention in Natural Language Processing
+**** intro
 Four dimensions to the taxonomy:
 - the representation of the input,
 - the compatibility function,
 - the distribution function,
 - the multiplicity of the input and/or output.
 
-*** attention models
+**** attention models
 #+attr_org: :width 700
 [[./tex/illustrations/coreAttentionModel.png]]
 
 #+attr_org: :width 800
 [[./tex/illustrations/generaelAttentionModel.png]]
 
-*** use of attention
+**** use of attention
 #+begin_quote
 Attention enables us to estimate the relevance of the input
 elements as well as to combine said elements into a com-
@@ -313,7 +444,7 @@ interactions between the elements of such sequences, rather
 than by applying a more rigid a priori defined model.
 #+end_quote
 
-*** taxonomy for attention models
+**** taxonomy for attention models
 #+begin_quote
 In NLP-related tasks, generally, K and V are representations
 of parts of documents, such as sequences of characters, words,
@@ -355,7 +486,7 @@ information regarding the relationship between the elements inside the sequence.
 Modern text-sequence generation systems often rely on this approach
 #+end_quote
 
-*** hiarchical attention
+**** hiarchical attention
 #+begin_quote
 Hierarchical-Input Architectures: In some tasks, portions
 of input data can be meaningfully grouped together into higher
@@ -408,7 +539,7 @@ a second application of the attention mechanism over D, with
 the keys being the document’s word embeddings K W .
 #+end_quote
 
-*** ref
+**** ref
 - [[https://arxiv.org/abs/1902.02181][{1902.02181} Attention in Natural Language Processing]]
 - file:~/udem/nlp/project/papers/1902.02181.pdf
 #+begin_src tex
@@ -430,14 +561,14 @@ the keys being the document’s word embeddings K W .
 }
 #+end_src
 
-** attention? attention!
+*** attention? attention!
 *Note: difficult for now might point to fancy improvements to consider in the future*
-*** different mechanisms
+**** different mechanisms
 #+name: A family of attention mechanisms
 #+ATTR_ORG: :width 700
 [[./tex/illustrations/afamilyofattentionmechanisms.png]]
 
-*** self attention
+**** self attention
 #+begin_quote
 Self-attention, also known as intra-attention, is an attention mechanism
 relating different positions of a single sequence in order to compute a
@@ -467,13 +598,13 @@ show and tell paper: [[https://arxiv.org/abs/1502.03044][{1502.03044} Show, Atte
   + Pro: less calculation at the inference time.
   + Con: the model is non-differentiable and requires more complicated techniques such as variance reduction or reinforcement learning to train. (Luong, et al., 2015)
 
-*** global vs local attention
+**** global vs local attention
 #+name: global vs local attention
 #+attr_org: :width 700
 [[./tex/illustrations/globalvslocalattention.png]]
 
 reference: [[https://arxiv.org/abs/1508.04025][{1508.04025} Effective Approaches to Attention-based Neural Machine Translation]]
-*** multi-head self attention: key value query
+**** multi-head self attention: key value query
 *important*
 #+begin_quote
 The transformer views the encoded representation of the input as a
@@ -505,8 +636,8 @@ to jointly attend to information from different representation subspaces at
 different positions. With a single attention head, averaging inhibits this.”
 #+end_quote
 
-*** TODO snail
-*** ref
+**** TODO snail
+**** ref
 - [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
 #+begin_src tex
 @article{weng2018attention,
@@ -517,26 +648,6 @@ different positions. With a single attention head, averaging inhibits this.”
   url     = "http://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html"
 }
 #+end_src
-
-
-* steps
-** TODO project proposal
-DEADLINE: <2021-02-05 Fri>
-
-- file:./tex/proposaltemplate.tex
-- file:./tex/proposalbibliography.bib
-
-*** DONE understand paper: Translation byu jointly learning to align and translate
-*** DONE understand transformer
-**** DONE understand multi-headed attention
-*** TODO understand BERT
-*** TODO read on more efficient transformers
-*** TODO narrow down list of papers to reference in proposal
-
-** TODO understand code of transformer
-** TODO understand training for question answering
-** TODO implement albert for Squad
-** TODO read on more advanced topics like meta learning
 
 
 * ressources
@@ -576,7 +687,6 @@ DEADLINE: <2021-02-05 Fri>
 - [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
 
 ** misc
-
 - [[https://www.overleaf.com/3324588169zyyzyysrrtmw][Overleaf, Online LaTeX Editor]]
 - [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
 - [[https://www.overleaf.com/learn/latex/bibliography_management_with_bibtex][Bibliography management with bibtex - Overleaf, Online LaTeX Editor]]
