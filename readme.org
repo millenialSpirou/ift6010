@@ -3,74 +3,36 @@
 #+STARTUP: inlineimages
 
 * notes
-- *Albert, a light version of BERT already surpasses humans in SquAd*
+** Need to google on
+ - knolwedge distilliation
+ - model compression
+ - network pruning
+** tasks for benchmarking
+- Squad : [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
+- GLUE: [[https://gluebenchmark.com/][GLUE Benchmark]]
+- SWAG: [[https://arxiv.org/abs/1808.05326][{1808.05326} SWAG: A Large-Scale Adversarial Dataset for Grounded Commonsense...]]
+- multi hop reasoning: [[https://arxiv.org/abs/1905.05460][{1905.05460} Cognitive Graph for Multi-Hop Reading Comprehension at Scale]]
 
-- *Finetuning, not even pretraining BERT, can take hours with a solid gpu*
-
-- The first paper on attention: Jointly learning to align and translate
-  still uses RNN, but attention mechanism from the decoder to the encoder
-  hiddens states. It's a good introduction to the topic and has *historical value*
-
-- Transformer is huge and hard to grasp it all, the hardest and most important
-  part is the *multi headed attention*. I'm still trying to understand it
-
-- I propose we do simple albert for implementation and Lit reviews
-  on more advanced topics. I predict there is gonna be a gap between
-  SOA stuff we can implement on a specific task like squad and papers
-  the prof will be interested in reading summaries of. So my idea is
-  to do both in parallel. If we're lucky we have time to implement
-  the more fancy stuff. If it's interesting enough the prof might give
-  us an extension.
-
-- Ideas for the more fancy stuff than squad with albert in order of /perceived/ difficulty:
-
-  + Squad is solved but there is always more room to *optimize training time*
-    More efficient version of transformers could be implemented or reviewed,
-    I want to read -[[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]] when I understand
-    transformer.
-
-  + tackling something more difficult than Squad might be interesting since
-    Albert beats humans I think the prof would consider it a /solved/ problem.
-
-  + The paper Attention in Natural Language Processing provides a classification
-    of different attention mechanisms by four criteria. It might be interesting
-    to investigate the different types of attentions, for example *hierarchical
-    attention*
-
-  + A lit review on SNAIL and meta-learning might be interesting, see attention? attention!
 
 
 * steps
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
-
 - file:./tex/proposaltemplate.tex
 - file:./tex/proposalbibliography.bib
 
-*** DONE understand paper: Translation byu jointly learning to align and translate
-*** DONE understand transformer
-**** DONE understand multi-headed attention
-*** TODO get list of possible tasks and associated issues
-*** TODO email prof
-*** TODO understand BERT
-*** TODO understand how to use hugging face transformers library
-*** TODO read on more efficient transformers
+*** TODO read on knowledge distilliation
+*** TODO read on model compression
 *** TODO narrow down list of papers to reference in proposal
 
-
 ** towards midway report
-
+*** TODO understand how to use hugging face transformers library
 *** TODO understand code of transformer
 *** TODO get datasets and preprocessing
-*** TODO understand (fine-tunin) training for question answering
-*** TODO implement albert for Squad
-
-** final report
-
-*** TODO read on more advanced topics like meta learning
+*** TODO understand (fine-tuning) training for question answering
 
 
-* Annotated and understood links/articles
+* Introduction to transformers
 
 ** Neural machine translation by jointly learning to align and translate
 *note: best first paper to read*
@@ -345,9 +307,72 @@ Cloud TPU, or *a few hours on a GPU*, starting from the exact same pre-trained
 model. 7
 #+end_quote
 
+*** experiments
+**** squad
+#+begin_quote
+in the question answering task, we represent the input question and pas- sage as
+a single packed sequence, with the question using the A embedding and the
+passage using the B embedding. We only introduce a start vector S ∈ R^H and an
+end vector E ∈ R^H during fine-tuning. The probability of word i being the start
+of the answer span is computed as a dot product between T_i and S followed by a
+softmax over S·Ti all of the words in the paragraph.  The analogous formula is
+used for the end of the answer span. The score of a candidate span from position
+i to position j is defined as S·T_i + E·T_j , and the maximum scoring span where
+j ≥ i is used as a prediction. The training objective is the sum of the
+log-likelihoods of the correct start and end positions.
+#+end_quote
+
+**** squad 2
+#+begin_quote
+The SQuAD 2.0 task extends the SQuAD 1.1 problem definition by allowing for the
+possibility that no short answer exists in the provided para- graph, making the
+problem more realistic.  We use a simple approach to extend the SQuAD v1.1 BERT
+model for this task. We treat questions that do not have an answer as having
+an answer span with start and end at the [CLS] token. The probability space
+for the start and end answer span positions is extended to include the position
+of the [CLS] token.
+
+For prediction, we compare the score of the no-answer span: s null = S·C + E·C
+to the score of the best non-null span s \hat_{i,j}= max j≥i S·T_i + E·T_j .
+We predict a non-null answer when s ˆ i,j > s null + τ , where the threshold τ
+is selected on the dev set to maximize F1.
+#+end_quote
+
+**** swag
+#+begin_quote
+The Situations With Adversarial Generations (SWAG) dataset contains 113k
+sentence-pair com- pletion examples that evaluate grounded commonsense
+inference (Zellers et al., 2018). Given a sentence, the task is to choose the
+most plausible continuation among four choices.  When fine-tuning on the SWAG
+dataset, we construct four input sequences, each containing the concatenation of
+the given sentence (sentence A) and a possible continuation (sentence B). The
+only task-specific parameters introduced is a vector whose dot product with
+the [CLS] token representation C denotes a score for each choice which is
+normalized with a softmax layer.
+#+end_quote
+
+**** effect of model size
+
+#+begin_quote
+we believe that this is the first work to demonstrate convincingly
+that scaling to extreme model sizes also leads to large improvements on very
+small scale tasks, provided that the model has been sufficiently pre-trained.
+#+end_quote
+*** conclusion
+#+begin_quote
+Recent empirical improvements due to transfer learning with language models have
+demonstrated that rich, unsupervised pre-training is an integral part of many
+language understanding systems. In particular, these results enable even
+low-resource tasks to benefit from deep unidirectional architectures. Our major
+contribution is further generalizing these findings to deep bidirectional
+architectures, allowing the same pre-trained model to successfully tackle a
+broad set of NLP tasks.
+#+end_quote
+
+
 *** ref
 - [[https://arxiv.org/abs/1810.04805][{1810.04805} BERT: Pre-training of Deep Bidirectional Transformers for Langua...]]
-- file:~/udem/nlp/project/papers/1810.04805.pdf
+- file:./papers/1810.04805.pdf
 
 #+begin_src tex
 @article{DBLP:journals/corr/abs-1810-04805,
@@ -369,6 +394,208 @@ model. 7
 }
 #+end_src
 
+
+* model compression
+** TinyBert
+*** abstract
+#+begin_quote
+Language model pre-training, such as BERT, has significantly improved the
+performances of many natural language processing tasks.  However, pre-trained
+language models are usually computationally expensive, so it is difficult to
+efficiently execute them on resource-restricted devices. To accelerate
+inference and reduce model size while maintaining accuracy, we first propose a
+novel Transformer distillation method that is specially designed for
+knowledge distillation (KD) of the Transformer-based models.
+#+end_quote
+
+#+begin_quote
+By leveraging this new KD method, the plenty of knowledge encoded in a large
+“teacher” BERT can be effectively transferred to a small “student” TinyBERT.
+Then, we introduce a new *two-stage learning framework* for TinyBERT, which per-
+forms Transformer distillation at both the pre- training and task-specific
+learning stages. This framework ensures that TinyBERT can capture the
+general-domain as well as the task-specific knowledge in BERT.
+#+end_quote
+
+#+begin_quote
+TinyBERT4 with 4 layers is empirically effective and achieves more than
+96.8% the performance of its teacher BERT BASE on GLUE benchmark, while being
+7.5x smaller and 9.4x faster on inference.
+
+TinyBERT4 is also significantly better than 4-layer state-of-the-art baselines
+on BERT distillation, with only ∼28% parameters and ∼31% inference time of them.
+Moreover, TinyBERT 6 with 6 layers performs on-par with its teacher BERT BASE .
+#+end_quote
+*** introduction
+
+PLMs based on the transformer architecture such as BERT, XLNet, RoBERTa, etc
+have been sucessful at many NLP tasks including the GLUE benchmark.
+#+begin_quote
+Pre-trained language models (PLMs), such as BERT (Devlin et al., 2019), XLNet
+(Yang et al., 2019), RoBERTa (Liu et al., 2019), ALBERT (Lan et al., 2020), T5
+(Raffel et al., 2019) and ELECTRA (Clark et al., 2020), have achieved great
+success in many NLP tasks (e.g., the GLUE benchmark (Wang et al., 2018) and the
+challenging multi-hop reasoning task (Ding et al., 2019)).
+#+end_quote
+
+#+begin_quote
+However, PLMs usually have a large number of parameters and take long infer-
+ence time, which are difficult to be deployed on edge devices such as mobile
+phones. Recent studies (Kovaleva et al., 2019; Michel et al., 2019; Voita et
+al., 2019) demonstrate that there is redundancy in PLMs. Therefore, it is
+crucial and feasible to reduce the computational overhead and model storage of
+PLMs while retaining their performances.
+#+end_quote
+
+model compression techniques:
+- quantization
+- weights pruning
+- Knowldge distillation
+#+begin_quote
+There have been many model compression techniques (Han et al., 2016) proposed
+to accelerate deep model inference and reduce model size while maintaining
+accuracy. The most commonly used techniques include quantization (Gong et al.,
+2014), weights pruning (Han et al., 2015), and knowledge distillation (KD)
+(Romero et al., 2014). In this paper, we focus on knowledge distillation, an
+idea originated from Hinton et al. (2015), in a teacher-student framework. KD
+aims to transfer the knowledge embedded in a large teacher net- work to a small
+student network where the student network is trained to reproduce the behaviors
+of the teacher network. Based on the framework, we pro- pose a novel
+distillation method specifically for the Transformer-based models (Vaswani et
+al., 2017), and use BERT as an example to investigate the method for large-scale
+PLMs.
+#+end_quote
+
+#+begin_quote
+it is required to design an effective KD strategy for both training stages.
+#+end_quote
+*** related work
+- PLM compression techniques:
+  + low rank approximation
+  + weight sharing
+  + knowledge distillation
+  + pruning
+  + quantization
+#+begin_quote
+Pre-trained Language Models Compression Generally, pre-trained language models
+(PLMs) can be compressed by low-rank approximation (Ma et al., 2019; Lan et al.,
+2020), weight sharing (De- hghani et al., 2019; Lan et al., 2020), knowledge
+distillation (Tang et al., 2019; Sanh et al., 2019; Turc et al., 2019; Sun et
+al., 2020; Liu et al., 2020; Wang et al., 2020), pruning (Cui et al., 2019; Mc-
+Carley, 2019; F. et al., 2020; Elbayad et al., 2020; Gordon et al., 2020; Hou et
+al., 2020) or quantiza- tion (Shen et al., 2019; Zafrir et al., 2019).
+#+end_quote
+
+- Pretraining lite PLMS
+  + ALBERT
+  + ELECTRA
+#+begin_quote
+Pretraining Lite PLMs Other related works aim at directly pretraining lite
+PLMs. Turc et al. (2019) pre-trained 24 miniature BERT models and show that
+pre-training remains important in the context of smaller architectures, and
+fine-tuning pretrained compact models can be competitive. ALBERT (Lan et
+al., 2020) incorporates embedding factorization and cross-layer parameter
+sharing to reduce model parameters. Since ALBERT does not reduce hidden size or
+layers of transformer block, it still has large amount of computations. Another
+concurrent work, ELECTRA (Clark et al., 2020) proposes a sample-efficient task
+called replaced to- ken detection to accelerate pre-training, and it also
+presents a 12-layer ELECTRA small that has com- parable performance with
+TinyBERT 4 . Differentfrom these small PLMs, TinyBERT 4 is a 4-layer model which
+can achieve more speedup.
+#+end_quote
+*** conclusion
+#+begin_quote
+In future work, we would study how to effectively
+transfer the knowledge from wider and deeper
+teachers (e.g., BERT LARGE ) to student TinyBERT.
+Combining distillation with quantization/pruning
+would be another promising direction to further
+compress the pre-trained language models.
+#+end_quote
+
+*** ref
+[[https://arxiv.org/abs/1909.10351][{1909.10351} TinyBERT: Distilling BERT for Natural Language Understanding]]
+file:./papers/1909.10351.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1909-10351,
+  author    = {Xiaoqi Jiao and
+               Yichun Yin and
+               Lifeng Shang and
+               Xin Jiang and
+               Xiao Chen and
+               Linlin Li and
+               Fang Wang and
+               Qun Liu},
+  title     = {TinyBERT: Distilling {BERT} for Natural Language Understanding},
+  journal   = {CoRR},
+  volume    = {abs/1909.10351},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1909.10351},
+  archivePrefix = {arXiv},
+  eprint    = {1909.10351},
+  timestamp = {Fri, 27 Sep 2019 13:04:21 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1909-10351.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
+** knowledge distillation
+*** ref
+file:./papers/1503.02531.pdf
+[[https://arxiv.org/abs/1503.02531][{1503.02531} Distilling the Knowledge in a Neural Network]]
+#+begin_src tex
+@misc{hinton2015distilling,
+      title={Distilling the Knowledge in a Neural Network},
+      author={Geoffrey Hinton and Oriol Vinyals and Jeff Dean},
+      year={2015},
+      eprint={1503.02531},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML}
+}
+#+end_src
+
+
+* Low ressource transformers
+** Reformer
+*** ref
+[[https://openreview.net/forum?id=rkgNKkHtvB][Reformer: The Efficient Transformer | OpenReview]]
+** ALBERT
+*** ref
+[[https://openreview.net/forum?id=H1eA7AEtvS][ALBERT: A Lite BERT for Self-supervised Learning of Language Representations ...]]
+** Sparse Transformers
+*** ref
+[[https://openai.com/blog/sparse-transformer/][Generative Modeling with Sparse Transformers]]
+** Simple Recurrent units
+*** ref
+[[https://arxiv.org/abs/1709.02755][{1709.02755} Simple Recurrent Units for Highly Parallelizable Recurrence]]
+
+** do we really need model compression
+*** ref
+[[http://mitchgordon.me/machine/learning/2020/01/13/do-we-really-need-model-compression.html][Do We Really Need Model Compression? | Mitchell A. Gordon]]
+#+begin_src tex
+@misc{gordon_2019,
+    author = "Mitchell A. Gordon",
+    title = "Do We Really Need Model Compression?",
+    year = "2020",
+    howpublished="http://mitchgordon.me/machine/learning/2020/01/13/do-we-really-need-model-compression.html",
+}
+#+end_src
+** Rethinking the value of network pruning
+*** ref
+[[https://openreview.net/forum?id=rJlnB3C5Ym][Rethinking the Value of Network Pruning | OpenReview]]
+file:./papers/rethinking_the_value_of_network_pruning.pdf
+#+begin_src tex
+@inproceedings{
+    liu2018rethinking,
+    title={Rethinking the Value of Network Pruning},
+    author={Zhuang Liu and Mingjie Sun and Tinghui Zhou and Gao Huang and Trevor Darrell},
+    booktitle={International Conference on Learning Representations},
+    year={2019},
+    url={https://openreview.net/forum?id=rJlnB3C5Ym},
+}
+#+end_src
+
+
+* Annotated articles not directly relevant to proposal
 
 ** Attention in Natural Language Processing
 *** intro
@@ -558,6 +785,79 @@ the keys being the document’s word embeddings K W .
 #+end_src
 
 
+** Efficient transformers: a survey
+
+*** introduction
+#+begin_quote
+There has been such a surge of Transformer model variants proposed recently, that
+researchers and practitioners alike may find it challenging to keep pace with the rate of
+innovation. As of this writing (circa August 2020), there have been nearly a dozen new
+efficiency-focused models proposed in just the past 6 months.
+#+end_quote
+
+#+begin_quote
+The self-attention mechanism is a key defining characteristic of Transformer models.
+The mechanism can be viewed as a graph-like inductive bias that connects all tokens in
+a sequence with a relevance-based pooling operation. A well-known concern with self-
+attention is the *quadratic time and memory complexity*, which can hinder model scalability
+in many settings. There has been an overwhelming influx of model variants proposed
+recently that address this problem. We hereinafter name this class of models “efficient
+Transformers”.
+#+end_quote
+
+
+*** background on transformers
+#+attr_org: :width 600
+[[./tex/illustrations/transformerMathSummary.png]]
+
+#+begin_quote
+It is important to note the differences in the mode of usage of the Transformer
+block.  Transformers can primarily be used in three ways, namely: (1)
+encoder-only (e.g., for classification), (2) decoder-only (e.g., for language
+modeling), and (3) encoder-decoder (e.g., for machine translation). In
+encoder-decoder mode, there are usually multiple multi-headed self-attention
+modules, including a standard self-attention in both the encoder and the
+decoder, *along with an encoder-decoder cross-attention that allows the decoder
+to utilize information from the encoder.* This influences the design of the
+self-attention mechanism.
+
+In the encoder mode, there is no restriction or constraint that the
+self-attention mechanism has to be causal, i.e., dependent solely on the present
+and past tokens.
+
+In the encoder-decoder setting, the encoder and encoder-decoder cross attention
+can afford to be non-causal but the *decoder self-attention must be causal.*
+#+end_quote
+
+
+*** a survey of efficient transformers
+#+attr_org: :width 800
+[[./tex/illustrations/taxonomyEfficientTransformers.png]]
+
+#+begin_quote
+The primary goal of most of these models, with the exception of those based on
+segment-based recurrence, is to approximate the quadratic- cost attention
+matrix. Each method applies some notion of sparsity to the otherwise dense
+attention mechanism.
+#+end_quote
+
+
+*** ref
+- [[https://arxiv.org/abs/2009.06732][{2009.06732} Efficient Transformers: A Survey]]
+- file:./papers/2009.06732.pdf
+
+#+begin_src tex
+@misc{tay2020efficient,
+      title={Efficient Transformers: A Survey},
+      author={Yi Tay and Mostafa Dehghani and Dara Bahri and Donald Metzler},
+      year={2020},
+      eprint={2009.06732},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+#+end_src
+
+
 ** attention? attention!
 *Note: difficult for now might point to fancy improvements to consider in the future*
 *** different mechanisms
@@ -647,9 +947,10 @@ different positions. With a single attention head, averaging inhibits this.”
 #+end_src
 
 
-* transformer code
+* other ressources
+** transformer with code
 
-** ref
+*** ref
 - preprocessing data and datasets in general
   + [[https://towardsdatascience.com/pre-processing-a-wikipedia-dump-for-nlp-model-training-a-write-up-3b9176fdf67][Pre-processing a Wikipedia dump for NLP model training — a write-up | by Stev...]]
 
@@ -663,8 +964,6 @@ different positions. With a single attention head, averaging inhibits this.”
   + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
   + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
 
-
-* ressources
 ** arxiv links
 - [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
 - [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
@@ -702,7 +1001,6 @@ different positions. With a single attention head, averaging inhibits this.”
 
 ** misc
 - [[https://www.overleaf.com/3324588169zyyzyysrrtmw][Overleaf, Online LaTeX Editor]]
-- [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
 - [[https://www.overleaf.com/learn/latex/bibliography_management_with_bibtex][Bibliography management with bibtex - Overleaf, Online LaTeX Editor]]
 - [[https://www.overleaf.com/learn/latex/Inserting_Images][Inserting Images - Overleaf, Online LaTeX Editor]]
 - [[https://github.com/hlissner/doom-emacs][GitHub - hlissner/doom-emacs: An Emacs framework for the stubborn martian hacker]]
