@@ -555,6 +555,74 @@ file:./papers/1503.02531.pdf
 
 
 * Low ressource transformers
+** Efficient transformers: a survey
+*** introduction
+#+begin_quote
+There has been such a surge of Transformer model variants proposed recently, that
+researchers and practitioners alike may find it challenging to keep pace with the rate of
+innovation. As of this writing (circa August 2020), there have been nearly a dozen new
+efficiency-focused models proposed in just the past 6 months.
+#+end_quote
+
+#+begin_quote
+The self-attention mechanism is a key defining characteristic of Transformer models.
+The mechanism can be viewed as a graph-like inductive bias that connects all tokens in
+a sequence with a relevance-based pooling operation. A well-known concern with self-
+attention is the *quadratic time and memory complexity*, which can hinder model scalability
+in many settings. There has been an overwhelming influx of model variants proposed
+recently that address this problem. We hereinafter name this class of models “efficient
+Transformers”.
+#+end_quote
+
+*** background on transformers
+#+attr_org: :width 600
+[[./tex/illustrations/transformerMathSummary.png]]
+
+#+begin_quote
+It is important to note the differences in the mode of usage of the Transformer
+block.  Transformers can primarily be used in three ways, namely: (1)
+encoder-only (e.g., for classification), (2) decoder-only (e.g., for language
+modeling), and (3) encoder-decoder (e.g., for machine translation). In
+encoder-decoder mode, there are usually multiple multi-headed self-attention
+modules, including a standard self-attention in both the encoder and the
+decoder, *along with an encoder-decoder cross-attention that allows the decoder
+to utilize information from the encoder.* This influences the design of the
+self-attention mechanism.
+
+In the encoder mode, there is no restriction or constraint that the
+self-attention mechanism has to be causal, i.e., dependent solely on the present
+and past tokens.
+
+In the encoder-decoder setting, the encoder and encoder-decoder cross attention
+can afford to be non-causal but the *decoder self-attention must be causal.*
+#+end_quote
+
+*** a survey of efficient transformers
+#+attr_org: :width 800
+[[./tex/illustrations/taxonomyEfficientTransformers.png]]
+
+#+begin_quote
+The primary goal of most of these models, with the exception of those based on
+segment-based recurrence, is to approximate the quadratic- cost attention
+matrix. Each method applies some notion of sparsity to the otherwise dense
+attention mechanism.
+#+end_quote
+
+*** ref
+- [[https://arxiv.org/abs/2009.06732][{2009.06732} Efficient Transformers: A Survey]]
+- file:./papers/2009.06732.pdf
+
+#+begin_src tex
+@misc{tay2020efficient,
+      title={Efficient Transformers: A Survey},
+      author={Yi Tay and Mostafa Dehghani and Dara Bahri and Donald Metzler},
+      year={2020},
+      eprint={2009.06732},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+#+end_src
+
 ** Reformer
 *** ref
 [[https://openreview.net/forum?id=rkgNKkHtvB][Reformer: The Efficient Transformer | OpenReview]]
@@ -783,80 +851,6 @@ the keys being the document’s word embeddings K W .
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 #+end_src
-
-
-** Efficient transformers: a survey
-
-*** introduction
-#+begin_quote
-There has been such a surge of Transformer model variants proposed recently, that
-researchers and practitioners alike may find it challenging to keep pace with the rate of
-innovation. As of this writing (circa August 2020), there have been nearly a dozen new
-efficiency-focused models proposed in just the past 6 months.
-#+end_quote
-
-#+begin_quote
-The self-attention mechanism is a key defining characteristic of Transformer models.
-The mechanism can be viewed as a graph-like inductive bias that connects all tokens in
-a sequence with a relevance-based pooling operation. A well-known concern with self-
-attention is the *quadratic time and memory complexity*, which can hinder model scalability
-in many settings. There has been an overwhelming influx of model variants proposed
-recently that address this problem. We hereinafter name this class of models “efficient
-Transformers”.
-#+end_quote
-
-
-*** background on transformers
-#+attr_org: :width 600
-[[./tex/illustrations/transformerMathSummary.png]]
-
-#+begin_quote
-It is important to note the differences in the mode of usage of the Transformer
-block.  Transformers can primarily be used in three ways, namely: (1)
-encoder-only (e.g., for classification), (2) decoder-only (e.g., for language
-modeling), and (3) encoder-decoder (e.g., for machine translation). In
-encoder-decoder mode, there are usually multiple multi-headed self-attention
-modules, including a standard self-attention in both the encoder and the
-decoder, *along with an encoder-decoder cross-attention that allows the decoder
-to utilize information from the encoder.* This influences the design of the
-self-attention mechanism.
-
-In the encoder mode, there is no restriction or constraint that the
-self-attention mechanism has to be causal, i.e., dependent solely on the present
-and past tokens.
-
-In the encoder-decoder setting, the encoder and encoder-decoder cross attention
-can afford to be non-causal but the *decoder self-attention must be causal.*
-#+end_quote
-
-
-*** a survey of efficient transformers
-#+attr_org: :width 800
-[[./tex/illustrations/taxonomyEfficientTransformers.png]]
-
-#+begin_quote
-The primary goal of most of these models, with the exception of those based on
-segment-based recurrence, is to approximate the quadratic- cost attention
-matrix. Each method applies some notion of sparsity to the otherwise dense
-attention mechanism.
-#+end_quote
-
-
-*** ref
-- [[https://arxiv.org/abs/2009.06732][{2009.06732} Efficient Transformers: A Survey]]
-- file:./papers/2009.06732.pdf
-
-#+begin_src tex
-@misc{tay2020efficient,
-      title={Efficient Transformers: A Survey},
-      author={Yi Tay and Mostafa Dehghani and Dara Bahri and Donald Metzler},
-      year={2020},
-      eprint={2009.06732},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-#+end_src
-
 
 ** attention? attention!
 *Note: difficult for now might point to fancy improvements to consider in the future*
