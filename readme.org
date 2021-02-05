@@ -1,6 +1,7 @@
 #+TITLE: IFT6010 project
 #+author: frederic boileau
-#+STARTUP: inlineimages
+#+startup: inlineimages
+#+property: header-args:tex :tangle ./tex/projectbibliography.bib
 
 * notes
 ** Need to google on
@@ -12,8 +13,6 @@
 - GLUE: [[https://gluebenchmark.com/][GLUE Benchmark]]
 - SWAG: [[https://arxiv.org/abs/1808.05326][{1808.05326} SWAG: A Large-Scale Adversarial Dataset for Grounded Commonsense...]]
 - multi hop reasoning: [[https://arxiv.org/abs/1905.05460][{1905.05460} Cognitive Graph for Multi-Hop Reading Comprehension at Scale]]
-
-
 
 * steps
 ** TODO project proposal
@@ -31,9 +30,7 @@ DEADLINE: <2021-02-05 Fri>
 *** TODO get datasets and preprocessing
 *** TODO understand (fine-tuning) training for question answering
 
-
-* Introduction to transformers
-
+* transformers
 ** Neural machine translation by jointly learning to align and translate
 *note: best first paper to read*
 *** intro
@@ -98,11 +95,9 @@ as input.
 }
 #+end_src
 
-
 ** The illustrated transformer
 *** ref
 [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
-
 
 ** Attention is all you need
 *** introduction
@@ -148,8 +143,6 @@ implemented using highly optimized matrix multiplication code.
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 #+end_src
-
-
 
 ** BERT
 *** introduction
@@ -394,7 +387,6 @@ broad set of NLP tasks.
 }
 #+end_src
 
-
 * model compression
 ** TinyBert
 *** abstract
@@ -539,6 +531,43 @@ file:./papers/1909.10351.pdf
 }
 #+end_src
 ** knowledge distillation
+*** introduction
+#+begin_quote
+In large-scale machine learning, we typically use very similar models for the
+training stage and the deployment stage despite their very different
+requirements: For tasks like speech and object recognition, training must
+extract structure from very large, highly redundant datasets but it does not
+need to operate in real time and it can use a huge amount of computation.
+Deployment to a large number of users, however, has much more stringent
+requirements on latency and computational resources.
+#+end_quote
+
+#+begin_quote
+A conceptual block that may have prevented more investigation of this very
+promising approach is that we tend to identify the knowledge in a trained model
+with the learned parameter values and this makes it hard to see how we can
+change the form of the model but keep the same knowledge.  A more abstract view
+of the knowledge, that frees it from any particular instantiation, is that it is
+a learned mapping from input vectors to output vectors.
+#+end_quote
+
+#+begin_quote
+It is generally accepted that the objective function used for training should
+reflect the true objective of the user as closely as possible. Despite this,
+models are usually trained to optimize performance on the training data when the
+real objective is to generalize well to new data. It would clearly be better to
+train models to generalize well, but this requires information about the correct
+way to generalize and this information is not normally available. When we are
+distilling the knowledge from a large model into a small one, however, we can
+train the small model to generalize in the same way as the large model. If the
+cumbersome model generalizes well because, for example, it is the average of a
+large ensemble of different models, a small model trained to generalize in the
+same way will typically do much better on test data than a small model that is
+trained in the normal way on the same training set as was used to train the
+ensemble.
+#+end_quote
+
+
 *** ref
 file:./papers/1503.02531.pdf
 [[https://arxiv.org/abs/1503.02531][{1503.02531} Distilling the Knowledge in a Neural Network]]
@@ -553,6 +582,17 @@ file:./papers/1503.02531.pdf
 }
 #+end_src
 
+* Code relevant links
+- Transformer
+  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
+  + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
+  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
+
+- pretraining bert
+  + [[https://d2l.ai/chapter_natural-language-processing-pretraining/bert-dataset.html][14.9. The Dataset for Pretraining BERT — Dive into Deep Learning 0.16.1 docum...]]
+  + [[https://github.com/google-research/bert/issues/750][google-research/bert#750 Creating training set from Wikipedia data?]]
+  + [[https://towardsdatascience.com/preparing-the-data-for-transformer-pre-training-a-write-up-67a9dc0cae5a][Preparing the data for Transformer pre-training — a write-up | by Steven van ...]]
+  + [[https://towardsdatascience.com/pre-processing-a-wikipedia-dump-for-nlp-model-training-a-write-up-3b9176fdf67][Pre-processing a Wikipedia dump for NLP model training — a write-up | by Stev...]]
 
 * Low ressource transformers
 ** Efficient transformers: a survey
@@ -662,9 +702,7 @@ file:./papers/rethinking_the_value_of_network_pruning.pdf
 }
 #+end_src
 
-
 * Annotated articles not directly relevant to proposal
-
 ** Attention in Natural Language Processing
 *** intro
 Four dimensions to the taxonomy:
@@ -940,62 +978,36 @@ different positions. With a single attention head, averaging inhibits this.”
 }
 #+end_src
 
-
 * other ressources
-** transformer with code
-
-*** ref
-- preprocessing data and datasets in general
-  + [[https://towardsdatascience.com/pre-processing-a-wikipedia-dump-for-nlp-model-training-a-write-up-3b9176fdf67][Pre-processing a Wikipedia dump for NLP model training — a write-up | by Stev...]]
-
-- pretraining bert
-  + [[https://d2l.ai/chapter_natural-language-processing-pretraining/bert-dataset.html][14.9. The Dataset for Pretraining BERT — Dive into Deep Learning 0.16.1 docum...]]
-  + [[https://github.com/google-research/bert/issues/750][google-research/bert#750 Creating training set from Wikipedia data?]]
-  + [[https://towardsdatascience.com/preparing-the-data-for-transformer-pre-training-a-write-up-67a9dc0cae5a][Preparing the data for Transformer pre-training — a write-up | by Steven van ...]]
-
-- general transformer
-  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
-  + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
-  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
-
-** arxiv links
+** github links
+- [[https://github.com/google-research/bert][GitHub - google-research/bert: TensorFlow code and pre-trained models for BERT]]
+- [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
+** misc arxiv links
 - [[https://arxiv.org/abs/2009.06732][arxiv Efficient transformers a survey]]
 - [[https://arxiv.org/abs/1807.03819][arxiv universal transformers]]
 - [[https://arxiv.org/abs/2006.15595][{2006.15595} Rethinking Positional Encoding in Language Pre-training]]
-
 ** non academic links
-
 - easier explanations of transformer
   + [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
-
-- Transformer (with code)
-  + [[http://nlp.seas.harvard.edu/2018/04/03/attention.html][The Annotated Transformer]]
-  + [[https://becominghuman.ai/attention-is-all-you-need-16bf481d8b5c][Attention is all you need. An explanation about transformer | by Pierrick RUG...]]
-  + [[http://vandergoten.ai/2018-09-18-attention-is-all-you-need/][Attention Is All You Need]]
-
 - attention
   + [[https://lilianweng.github.io/lil-log/2018/06/24/attention-attention.html][Attention? Attention!]]
   + [[https://theaisummer.com/attention/][How Attention works in Deep Learning: understanding the attention mechanism i...]]
-
 - positional encoding
   + [[https://kazemnejad.com/blog/transformer_architecture_positional_encoding/][Transformer Architecture: The Positional Encoding - Amirhossein Kazemnejad's ...]]
   + [[https://datascience.stackexchange.com/questions/51065/what-is-the-positional-encoding-in-the-transformer-model][nlp - What is the positional encoding in the transformer model? - Data Scienc...]]
-
 - machine translation through alignment
   + [[https://www.tensorflow.org/tutorials/text/nmt_with_attention][Neural machine translation with attention  |  TensorFlow Core]]
-
 - videos
   + [[https://www.youtube.com/watch?v=rBCqOTEfxvg][Attention is all you need; Attentional Neural Network Models | Łukasz Kaiser ...]]
   + [[https://www.youtube.com/watch?v=-QH8fRhqFHM][The Narrated Transformer Language Model - YouTube]]
   + [[https://www.youtube.com/watch?v=S27pHKBEp30][LSTM is dead. Long Live Transformers! - YouTube]]
 
-** github links
-- [[https://github.com/google-research/bert][GitHub - google-research/bert: TensorFlow code and pre-trained models for BERT]]
-- [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
-
 ** misc
+
+- [[https://github.com/hlissner/doom-emacs][GitHub - hlissner/doom-emacs: An Emacs framework for the stubborn martian hacker]]
+- [[https://orgmode.org/worg/org-tutorials/][Org tutorials]]
+- [[https://org-babel.readthedocs.io/en/latest/header-args/][Header arguments - Org Babel reference card]]
+
 - [[https://www.overleaf.com/3324588169zyyzyysrrtmw][Overleaf, Online LaTeX Editor]]
 - [[https://www.overleaf.com/learn/latex/bibliography_management_with_bibtex][Bibliography management with bibtex - Overleaf, Online LaTeX Editor]]
 - [[https://www.overleaf.com/learn/latex/Inserting_Images][Inserting Images - Overleaf, Online LaTeX Editor]]
-- [[https://github.com/hlissner/doom-emacs][GitHub - hlissner/doom-emacs: An Emacs framework for the stubborn martian hacker]]
-- [[https://orgmode.org/worg/org-tutorials/][Org tutorials]]
