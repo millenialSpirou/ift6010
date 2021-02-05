@@ -617,5 +617,3 @@ file:./papers/1905.05460.pdf
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 #+end_src
-* link dump
-- [[https://github.com/thunlp/PLMpapers][GitHub - thunlp/PLMpapers: Must-read Papers on pre-trained language models.]]
