@@ -5,9 +5,10 @@
 
 * notes
 ** Need to google on
- - knolwedge distilliation
  - model compression
- - network pruning
+   + knolwedge distilliation
+   + compression through quantization
+   + network pruning
 ** tasks for benchmarking
 - Squad : [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
 - GLUE: [[https://gluebenchmark.com/][GLUE Benchmark]]
@@ -17,13 +18,13 @@
 * steps
 ** TODO project proposal
 DEADLINE: <2021-02-05 Fri>
-- file:./tex/proposaltemplate.tex
-- file:./tex/proposalbibliography.bib
+*** relevant files
+- file:./tex/projectproposal.tex
+- file:./tex/projectbibliography.bib
 
 *** TODO read on knowledge distilliation
 *** TODO read on model compression
 *** TODO narrow down list of papers to reference in proposal
-
 ** towards midway report
 *** TODO understand how to use hugging face transformers library
 *** TODO understand code of transformer
@@ -566,8 +567,6 @@ same way will typically do much better on test data than a small model that is
 trained in the normal way on the same training set as was used to train the
 ensemble.
 #+end_quote
-
-
 *** ref
 file:./papers/1503.02531.pdf
 [[https://arxiv.org/abs/1503.02531][{1503.02531} Distilling the Knowledge in a Neural Network]]
