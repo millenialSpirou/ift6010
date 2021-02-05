@@ -1,4 +1,10 @@
 \documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{comment}
+
+
 \usepackage[table]{xcolor}
 \usepackage{longtable}
 \usepackage{geometry}
@@ -30,7 +36,7 @@
 }
 
 % Title
-\title{\textbf{Pretrained Language Models on Low Ressources: a Review}}
+\title{\textbf{Pretrained Language Models on Low Ressources}}
 \author{Gao Yinghan, Wei Wei, Frederic Boileau}
 
 \begin{document}
@@ -38,15 +44,128 @@
 \thispagestyle{plain}
 
 
-\paragraph{The transformer/attention revolution}
+\section*{Introduction to attention and its history}
 
-\paragraph{Compression approaches}
+It was conjectured by Bahdanau et al\cite{bahdanau2016neural} that the
+dominant encoder decoder paradigms to Neural Machine Translation presented one
+major drawback. All the information necessary to the transduction mechanism had
+to be encoded into a fixed length vector. The dominant approach was to use a RNN
+to encode the sequence to transduce (or more precisely the
 
+
+
+sentence to translate
+in the case of Bahdanau et al) into a fixed length vector c which was a function
+of the encoder's hiddens states, usually simply extracting the last hidden
+parameter. To remedy the situation the authors tackled the problem with an
+innovative approach: making the context vector depend on a linear combinations
+of \textbf{all} the hidden states, where the weights assigned respectively were
+learned through training a feedforward network. This enabled to effectively
+learn what part of the input sentence the output had to \textit{attend to}. This
+idea was called attention.
+
+\begin{equation}
+  \label{eq:3}
+  c_{i} = \sum_{j=1}^{T_{x}}\alpha_{ij}h_{j} \qquad
+  \alpha_{ij} = \frac{\exp(e_{ij})}{\sum_{k=1}^{T_{x}}\exp(e_{ik})} \qquad
+  e_{ij} = a(s_{i-1}, h_{j})
+\end{equation}
+% TODO explain in words fundamental equations of attention
+
+
+\section*{The Transformer revolution}
+% TODO explain transformer
+Later on Vaswani et al \cite{allyouneed} introduced a revolutionnary
+architecture, the transformer. Still based on the idea of an encoder and decoder
+for transduction, they based their architecture solely on an attention mechanism
+enables to model the long range dependencies in a sentence without the
+inherently sequential constraint which RNNs in their various forms imply. The
+massive parallelization enabled massive improvements in training time to achieve
+state of the art results in machine translation\\
+
+% TODO add fundamental transformer equation
+%
+
+\section*{Pretrained Language Models}
+% TODO explain PLMs in general and knowledge transfer
+We will focus in our project not precisely on transduction tasks but on large
+pretrained language models (PLMs) which can then be fined tuned for downstream
+tasks such as \ldots\\
+
+
+
+% TODO explain BERT
+%
+BERT is \ldots\cite{bert}\\
+
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{cc}
+    Architecture & Number of parameters\\
+    \hline
+    BERT & 340M\\
+    GPT-2 & 1.5B\\
+    MegatronLM & 8.3B\\
+    T5 & 11B\\
+    T-NLG & 17B\\
+    GShard & 600B
+  \end{tabular}
+  \caption{PLMs and their sizes}
+\end{table}
+
+\section*{Compression approaches}
+Model compression consists of \ldots
+
+\subsection*{Knowledge distillation}
+% TODO explain Knowledge distillation
+%
+Knowledge Distillation (KD)\cite{hinton2015distilling}
+
+\subsection*{tinyBERT}
+% TODO explain TinyBERT
+%
+TinyBERT\cite{tinybert}
+
+\subsection*{Other model commpression techniques}
+% TODO explain other model compression techniques
+%
+We have the following other model compression techniques\cite{gupta2020compression}
+\begin{itemize}
+  \item Pruning
+  \item Quantization
+  \item Parameter Sharing
+  \item Tensor Decomposition
+\end{itemize}
+
+
+
+% TODO explain metrics such for evaluation such as Squad and Glue
+%
+PLMs can be evaluated on GLUE for general LM performance and more specific downstream
+tasks for which they are fine tuned such as Squad.
+\begin{itemize}
+  \item SquAD\cite{squad}
+  \item GLUE\cite{glue}
+\end{itemize}
 
 
 \medskip
 
 \bibliography{projectbibliography}
 \bibliographystyle{unsrt}
-\end{document}
 
+
+
+\begin{comment}
+
+\begin{itemize}
+  \item Albert\cite{Lan2020ALBERT}
+  \item Reformer\cite{Kitaev2020Reformer:}
+  \item Simple Recurrent Units (SRU)\cite{sru}
+  \item Sparse Transformers (ST)\cite{sparsetransformers}
+\end{itemize}
+
+\end{comment}
+
+\end{document}

@@ -9,7 +9,7 @@
  [[https://gluebenchmark.com/][GLUE Benchmark]]
  file:./papers/glue.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1808-05326,
+@article{glue,
   author    = {Rowan Zellers and
                Yonatan Bisk and
                Roy Schwartz and
@@ -33,7 +33,7 @@
 [[https://arxiv.org/abs/1806.03822][{1806.03822} Know What You Don't Know: Unanswerable Questions for SQuAD]]
 file:./papers/1806.03822.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1806-03822,
+@article{squad,
   author    = {Pranav Rajpurkar and
                Robin Jia and
                Percy Liang},
@@ -203,7 +203,7 @@ implemented using highly optimized matrix multiplication code.
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
 - file:./papers/attentionIsAllYouNeed.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/VaswaniSPUJGKP17,
+@article{allyouneed,
   author    = {Ashish Vaswani and
                Noam Shazeer and
                Niki Parmar and
@@ -448,7 +448,7 @@ broad set of NLP tasks.
 - file:./papers/1810.04805.pdf
 
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1810-04805,
+@article{bert,
   author    = {Jacob Devlin and
                Ming{-}Wei Chang and
                Kenton Lee and
@@ -780,7 +780,7 @@ file:./papers/reformer.pdf
 [[https://arxiv.org/abs/1709.02755][{1709.02755} Simple Recurrent Units for Highly Parallelizable Recurrence]]
 file:./papers/1709.02755.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1709-02755,
+@article{sru,
   author    = {Tao Lei and
                Yu Zhang and
                Yoav Artzi},
@@ -803,7 +803,7 @@ file:./papers/1709.02755.pdf
 [[https://arxiv.org/abs/1904.10509][{1904.10509} Generating Long Sequences with Sparse Transformers]]
 file:./papers/1904.10509.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1904-10509,
+@article{sparsetransformers,
   author    = {Rewon Child and
                Scott Gray and
                Alec Radford and
@@ -818,31 +818,6 @@ file:./papers/1904.10509.pdf
   timestamp = {Thu, 02 May 2019 15:13:44 +0200},
   biburl    = {https://dblp.org/rec/journals/corr/abs-1904-10509.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
-}
-#+end_src
-** do we really need model compression
-*** ref
-[[http://mitchgordon.me/machine/learning/2020/01/13/do-we-really-need-model-compression.html][Do We Really Need Model Compression? | Mitchell A. Gordon]]
-#+begin_src tex
-@misc{gordon_2019,
-    author = "Mitchell A. Gordon",
-    title = "Do We Really Need Model Compression?",
-    year = "2020",
-    howpublished="http://mitchgordon.me/machine/learning/2020/01/13/do-we-really-need-model-compression.html",
-}
-#+end_src
-** Rethinking the value of network pruning
-*** ref
-[[https://openreview.net/forum?id=rJlnB3C5Ym][Rethinking the Value of Network Pruning | OpenReview]]
-file:./papers/rethinking_the_value_of_network_pruning.pdf
-#+begin_src tex
-@inproceedings{
-    liu2018rethinking,
-    title={Rethinking the Value of Network Pruning},
-    author={Zhuang Liu and Mingjie Sun and Tinghui Zhou and Gao Huang and Trevor Darrell},
-    booktitle={International Conference on Learning Representations},
-    year={2019},
-    url={https://openreview.net/forum?id=rJlnB3C5Ym},
 }
 #+end_src
 * Attention concept in general
@@ -1134,6 +1109,31 @@ different positions. With a single attention head, averaging inhibits this.”
   + [[https://towardsdatascience.com/pre-processing-a-wikipedia-dump-for-nlp-model-training-a-write-up-3b9176fdf67][Pre-processing a Wikipedia dump for NLP model training — a write-up | by Stev...]]
 
 * other ressources
+** Rethinking the value of network pruning
+*** ref
+[[https://openreview.net/forum?id=rJlnB3C5Ym][Rethinking the Value of Network Pruning | OpenReview]]
+file:./papers/rethinking_the_value_of_network_pruning.pdf
+#+begin_src tex
+@inproceedings{
+    liu2018rethinking,
+    title={Rethinking the Value of Network Pruning},
+    author={Zhuang Liu and Mingjie Sun and Tinghui Zhou and Gao Huang and Trevor Darrell},
+    booktitle={International Conference on Learning Representations},
+    year={2019},
+    url={https://openreview.net/forum?id=rJlnB3C5Ym},
+}
+#+end_src
+** do we really need model compression
+*** ref
+[[http://mitchgordon.me/machine/learning/2020/01/13/do-we-really-need-model-compression.html][Do We Really Need Model Compression? | Mitchell A. Gordon]]
+#+begin_src tex
+@misc{gordon_2019,
+    author = "Mitchell A. Gordon",
+    title = "Do We Really Need Model Compression?",
+    year = "2020",
+    howpublished="http://mitchgordon.me/machine/learning/2020/01/13/do-we-really-need-model-compression.html",
+}
+#+end_src
 ** github links
 - [[https://github.com/google-research/bert][GitHub - google-research/bert: TensorFlow code and pre-trained models for BERT]]
 - [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
