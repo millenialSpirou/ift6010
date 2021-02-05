@@ -5,22 +5,108 @@
 
 * notes
 ** tasks for benchmarking
-- Squad : [[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
-- GLUE: [[https://gluebenchmark.com/][GLUE Benchmark]]
-- SWAG: [[https://arxiv.org/abs/1808.05326][{1808.05326} SWAG: A Large-Scale Adversarial Dataset for Grounded Commonsense...]]
-- multi hop reasoning: [[https://arxiv.org/abs/1905.05460][{1905.05460} Cognitive Graph for Multi-Hop Reading Comprehension at Scale]]
+*** GLUE:
+ [[https://gluebenchmark.com/][GLUE Benchmark]]
+ file:./papers/glue.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1808-05326,
+  author    = {Rowan Zellers and
+               Yonatan Bisk and
+               Roy Schwartz and
+               Yejin Choi},
+  title     = {{SWAG:} {A} Large-Scale Adversarial Dataset for Grounded Commonsense
+               Inference},
+  journal   = {CoRR},
+  volume    = {abs/1808.05326},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1808.05326},
+  archivePrefix = {arXiv},
+  eprint    = {1808.05326},
+  timestamp = {Wed, 23 Dec 2020 10:37:10 +0100},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1808-05326.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
+
+*** Squad
+[[https://rajpurkar.github.io/SQuAD-explorer/][The Stanford Question Answering Dataset]]
+[[https://arxiv.org/abs/1806.03822][{1806.03822} Know What You Don't Know: Unanswerable Questions for SQuAD]]
+file:./papers/1806.03822.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1806-03822,
+  author    = {Pranav Rajpurkar and
+               Robin Jia and
+               Percy Liang},
+  title     = {Know What You Don't Know: Unanswerable Questions for SQuAD},
+  journal   = {CoRR},
+  volume    = {abs/1806.03822},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1806.03822},
+  archivePrefix = {arXiv},
+  eprint    = {1806.03822},
+  timestamp = {Mon, 13 Aug 2018 16:48:21 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1806-03822.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
+
+*** SWAG
+[[https://arxiv.org/abs/1808.05326][{1808.05326} SWAG: A Large-Scale Adversarial Dataset for Grounded Commonsense...]]
+file:./papers/1808.05326.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1808-05326,
+  author    = {Rowan Zellers and
+               Yonatan Bisk and
+               Roy Schwartz and
+               Yejin Choi},
+  title     = {{SWAG:} {A} Large-Scale Adversarial Dataset for Grounded Commonsense
+               Inference},
+  journal   = {CoRR},
+  volume    = {abs/1808.05326},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1808.05326},
+  archivePrefix = {arXiv},
+  eprint    = {1808.05326},
+  timestamp = {Wed, 23 Dec 2020 10:37:10 +0100},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1808-05326.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
+
+*** multi hop reasoning
+[[https://arxiv.org/abs/1905.05460][{1905.05460} Cognitive Graph for Multi-Hop Reading Comprehension at Scale]]
+file:./papers/1905.05460.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1905-05460,
+  author    = {Ming Ding and
+               Chang Zhou and
+               Qibin Chen and
+               Hongxia Yang and
+               Jie Tang},
+  title     = {Cognitive Graph for Multi-Hop Reading Comprehension at Scale},
+  journal   = {CoRR},
+  volume    = {abs/1905.05460},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1905.05460},
+  archivePrefix = {arXiv},
+  eprint    = {1905.05460},
+  timestamp = {Tue, 28 May 2019 12:48:08 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1905-05460.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
 
 * steps
 ** TODO project proposal
-DEADLINE: <2021-02-05 Fri>
+DEADLINE: <2021-02-07 Sun>
 *** relevant files
 - file:./tex/projectproposal.tex
 - file:./tex/projectbibliography.bib
 
-*** TODO read on knowledge distilliation
+*** DONE read on knowledge distilliation
 *** TODO read on model compression
 *** TODO narrow down list of papers to reference in proposal
-** towards midway report
+** TODO towards midway report
 *** TODO understand how to use hugging face transformers library
 *** TODO understand code of transformer
 *** TODO get datasets and preprocessing
@@ -590,7 +676,7 @@ file:./papers/1909.10351.pdf
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 #+end_src
-** paper dump
+** link dump
 - [[https://www.pragmatic.ml/a-survey-of-methods-for-model-compression-in-nlp/][A Survey of Methods for Model Compression in NLP]]
 - [[https://arxiv.org/abs/2002.12620][{2002.12620} TextBrewer: An Open-Source Knowledge Distillation Toolkit for Na...]]
 * Low ressource transformers
@@ -650,7 +736,6 @@ attention mechanism.
 *** ref
 - [[https://arxiv.org/abs/2009.06732][{2009.06732} Efficient Transformers: A Survey]]
 - file:./papers/2009.06732.pdf
-
 #+begin_src tex
 @misc{tay2020efficient,
       title={Efficient Transformers: A Survey},
@@ -662,19 +747,79 @@ attention mechanism.
 }
 #+end_src
 
-** Reformer
-*** ref
-[[https://openreview.net/forum?id=rkgNKkHtvB][Reformer: The Efficient Transformer | OpenReview]]
 ** ALBERT
 *** ref
 [[https://openreview.net/forum?id=H1eA7AEtvS][ALBERT: A Lite BERT for Self-supervised Learning of Language Representations ...]]
-** Sparse Transformers
+file:./papers/albert.pdf
+#+begin_src tex
+@inproceedings{Lan2020ALBERT,
+    title={ALBERT: A Lite BERT for Self-supervised Learning of Language Representations},
+    author={Zhenzhong Lan and Mingda Chen and Sebastian Goodman and Kevin Gimpel and Piyush Sharma and Radu Soricut},
+    booktitle={International Conference on Learning Representations},
+    year={2020},
+    url={https://openreview.net/forum?id=H1eA7AEtvS}
+}
+
+#+end_src
+** Reformer
 *** ref
-[[https://openai.com/blog/sparse-transformer/][Generative Modeling with Sparse Transformers]]
+[[https://openreview.net/forum?id=rkgNKkHtvB][Reformer: The Efficient Transformer | OpenReview]]
+file:./papers/reformer.pdf
+#+begin_src tex
+@inproceedings{
+    Kitaev2020Reformer:,
+    title={Reformer: The Efficient Transformer},
+    author={Nikita Kitaev and Lukasz Kaiser and Anselm Levskaya},
+    booktitle={International Conference on Learning Representations},
+    year={2020},
+    url={https://openreview.net/forum?id=rkgNKkHtvB}
+}
+#+end_src
 ** Simple Recurrent units
 *** ref
 [[https://arxiv.org/abs/1709.02755][{1709.02755} Simple Recurrent Units for Highly Parallelizable Recurrence]]
+file:./papers/1709.02755.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1709-02755,
+  author    = {Tao Lei and
+               Yu Zhang and
+               Yoav Artzi},
+  title     = {Training RNNs as Fast as CNNs},
+  journal   = {CoRR},
+  volume    = {abs/1709.02755},
+  year      = {2017},
+  url       = {http://arxiv.org/abs/1709.02755},
+  archivePrefix = {arXiv},
+  eprint    = {1709.02755},
+  timestamp = {Mon, 13 Aug 2018 16:46:29 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1709-02755.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
 
+** Sparse Transformers
+*** ref
+[[https://openai.com/blog/sparse-transformer/][Generative Modeling with Sparse Transformers]]
+[[https://arxiv.org/abs/1904.10509][{1904.10509} Generating Long Sequences with Sparse Transformers]]
+file:./papers/1904.10509.pdf
+#+begin_src tex
+@article{DBLP:journals/corr/abs-1904-10509,
+  author    = {Rewon Child and
+               Scott Gray and
+               Alec Radford and
+               Ilya Sutskever},
+  title     = {Generating Long Sequences with Sparse Transformers},
+  journal   = {CoRR},
+  volume    = {abs/1904.10509},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1904.10509},
+  archivePrefix = {arXiv},
+  eprint    = {1904.10509},
+  timestamp = {Thu, 02 May 2019 15:13:44 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1904-10509.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
 ** do we really need model compression
 *** ref
 [[http://mitchgordon.me/machine/learning/2020/01/13/do-we-really-need-model-compression.html][Do We Really Need Model Compression? | Mitchell A. Gordon]]
@@ -700,7 +845,6 @@ file:./papers/rethinking_the_value_of_network_pruning.pdf
     url={https://openreview.net/forum?id=rJlnB3C5Ym},
 }
 #+end_src
-
 * Attention concept in general
 ** Attention in Natural Language Processing
 *** intro
