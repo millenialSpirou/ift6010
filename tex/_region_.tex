@@ -1,4 +1,4 @@
-\documentclass{article}
+\message{ !name(projectproposal.tex)}\documentclass{article}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -42,6 +42,9 @@
 \author{Gao Yinghan, Wei Wei, Frederic Boileau}
 
 \begin{document}
+
+\message{ !name(projectproposal.tex) !offset(-3) }
+
 \thispagestyle{plain}
 \maketitle
 \medskip
@@ -59,10 +62,15 @@ massive parallelization enabled massive improvements in training time to achieve
 state of the art results in machine translation\\
 
 
-\subsection{Pretrained language models and BERT}
+\subsection{Pretrained Language Models}
+We will focus in our project not precisely on transduction tasks but on large
+pretrained language models (PLMs) which can then be fined tuned for downstream
+tasks such as \ldots\\
 
+
+\subsection{BERT}
 BERT is \ldots\cite{bert}\\
-PLMs in general are \ldots
+
 
 But those models tend to be huge \ldots
 \begin{table}[h]
@@ -76,7 +84,7 @@ But those models tend to be huge \ldots
     MegatronLM & 8.3B\\
     T5 & 11B\\
     T-NLG & 17B\\
-    GShard & 600B\\
+    GShard & 600B
     \bottomrule
   \end{tabular}
   \caption{PLMs and their sizes}\cite{gupta2020compression}
@@ -156,3 +164,5 @@ idea was called attention.
 \end{comment}
 
 \end{document}
+
+\message{ !name(projectproposal.tex) !offset(-168) }
