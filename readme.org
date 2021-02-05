@@ -1137,6 +1137,8 @@ different positions. With a single attention head, averaging inhibits this.”
 ** github links
 - [[https://github.com/google-research/bert][GitHub - google-research/bert: TensorFlow code and pre-trained models for BERT]]
 - [[https://github.com/huggingface/transformers][GitHub - huggingface/transformers: Transformers: State-of-the-art NLP]]
+- [[https://github.com/yinmingjun/TinyBERT][GitHub - yinmingjun/TinyBERT]]
+- [[https://github.com/allenai/allennlp][GitHub - allenai/allennlp: An Apache 2.0 NLP research library, built on PyTorch, for developing state-of-the-art deep learning models on a wide variety of linguistic tasks]]
 ** non academic links
 - easier explanations of transformer
   + [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
