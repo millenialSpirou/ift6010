@@ -3,16 +3,19 @@
 #+startup: inlineimages
 #+property: header-args:tex :tangle ./tex/projectbibliography.bib
 
+
 * TODO project proposal
 DEADLINE: <2021-02-07 Sun>
 ** relevant files
 - file:./tex/projectproposal.tex
 - file:./tex/projectbibliography.bib
 
-** TODO explain transformer
-** TODO explain BERT
-** TODO explain PLMs
+** DONE explain transformer
+** DONE explain BERT
+- [[https://www.youtube.com/watch?v=xI0HHN5XKDo][BERT Neural Network - EXPLAINED! - YouTube]]
+** DONE explain PLMs
 ** TODO explain KD and tinyBERT
+** TODO explain metrics
 * transformers
 ** The illustrated transformer
 *** ref
@@ -188,10 +191,9 @@ corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to
 extract long contiguous sequences.
 #+end_quote
 *** fine tuning
-
 #+begin_quote
 Fine-tuning is straightforward since the self- attention mechanism in the
-Transformer al- lows BERT to model many downstream tasks— whether they involve
+Transformer allows BERT to model many downstream tasks— whether they involve
 single text or text pairs—by swapping out the appropriate inputs and outputs.
 For applications involving text pairs, a common pattern is to independently
 encode text pairs be- fore applying bidirectional cross attention, such as

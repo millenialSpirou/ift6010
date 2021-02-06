@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\usepackage{csquotes}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 
@@ -47,26 +49,38 @@
 \medskip
 
 
+\paragraph{Transformer} Vaswani et al \cite{allyouneed} introduced a
+revolutionnary architecture for machine translation in 2017, the transformer.
+The idea was based on the idea of an encoder and decoder for transduction as for
+the state of the art predecessors relying on deep bidirectionnal RNNs for both
+the encoding and the decoding stages. The authors of the transformer paper,
+``Attention is all you need'' based their architecture's sequence modeling
+solely on an attention mechanism which enables it to model the long range
+dependencies in a sentence without the inherently sequential constraint which
+RNNs in their various forms imply. The massive parallelization enabled massive
+improvements in training time to achieve state of the art results in machine
+translation amongst other NLP tasks.\\
 
+% TODO self attention equation
 
-\section{The Transformer revolution}
-Vaswani et al \cite{allyouneed} introduced a revolutionnary
-architecture in 2017, the transformer. Still based on the idea of an encoder and
-decoder for transduction, they based their architecture solely on an attention
-mechanism enables to model the long range dependencies in a sentence without the
-inherently sequential constraint which RNNs in their various forms imply. The
-massive parallelization enabled massive improvements in training time to achieve
-state of the art results in machine translation\\
+\paragraph{Pretrained Language Models}Bidirectional Encoder Representation from
+(BERT)\cite{bert} is an architecture based on the encoder module of the
+transformer. Its training is done in two steps, first it learns a Language Model
+(LM) which results in a Pretrained Language Model (PLM) through some
+unsupervised learning tasks. The training procedure is done over two tasks:
+Masked Language Model (MLM) and Next Sentence Prediction (NSP). The MLM task
+simply trains the model to learn to predict randomly masked words from a
+sentence. In NSP, BERT learns to predict, given a pair of sentences, whether one
+follows the other. When trained on those tasks the BERT yields a PLM. The
+resulting model can then be fine-tuned in a supervised setting for a specific
+tasks such as question answering. This ability to train once over a huge corpus
+of data to yield a LM and then fine tune it downstream adresses one core issue
+of deep learning: how to transfer learning or knowledge.\\
 
-
-\subsection{Pretrained language models and BERT}
-
-BERT is \ldots\cite{bert}\\
-PLMs in general are \ldots
-
-But those models tend to be huge \ldots
+BERT is just one of many examples of large PLM deployed today. The
+following table lists the models and their associated number of parameters.
 \begin{table}[h]
-  \centering
+\centering
   \begin{tabular}{cc}
     \toprule
     Architecture & Number of parameters\\
@@ -79,37 +93,46 @@ But those models tend to be huge \ldots
     GShard & 600B\\
     \bottomrule
   \end{tabular}
-  \caption{PLMs and their sizes}\cite{gupta2020compression}
+  \caption{PLMs and their sizes\cite{gupta2020compression}}
 \end{table}
-
-
-
 \clearpage
-\section{Compression approaches}
-Model compression consists of \ldots
 
-\subsection{Knowledge distillation}
-Knowledge Distillation (KD)\ldots\cite{hinton2015distilling}
+\paragraph{Knowledge Distillation} Knowledge Distillation (KD) addresse the
+following issue, how can we leverage the state of the art (SOA) results given by
+large PLMs to do inference in a context where memory and computing power are
+limited. One avenue would be to use one of the large PLMs to ``teach'' a smaller
+model (the student) which we can deploy in more ressource limited environments.
+Hinton, though not specifically with respect argued in
+2015\cite{hinton2015distilling} that one conceptual roadblock to knowledge
+transfer or ``distillation'' had been the rigid identification of a model with
+the learned parameter values instead of the more abstract view of a
+\enquote{learned mapping from input vectors to output
+vectors}\cite{hinton2015distilling}. The way to do this according to Hinton et
+al is to make the student learn through an objective function which reflects the
+generalization ability learned in the teacher model. To achieve this he proposes
+using an objective function which averages over the soft target (the output
+probabilities of the teacher where the logits are divided by temperature factor
+to adjust the smoothness of those targets) and the ground truth.\\
 
-\subsection{tinyBERT}
-TinyBERT\ldots\cite{tinybert}
+\paragraph{TinyBERT}\ldots\cite{tinybert}
 
-\subsection{Other model commpression techniques}
+\paragraph{Further model compression}
 We have the following other model compression techniques\ldots\cite{gupta2020compression}
-\paragraph{Pruning}\ldots
-\paragraph{Quantization}\ldots
-\paragraph{Parameter Sharing}\ldots
-\paragraph{Tensor Decomposition}\ldots
+\begin{itemize}
+  \item Pruning\ldots
+  \item Quantization\ldots
+  \item Parameter Sharing\ldots
+  \item Tensor Decomposition\ldots
+\end{itemize}
 
 
-\section{Experiments and Evaluation}
-PLMs can be evaluated on GLUE for general LM performance and more specific downstream
-tasks for which they are fine tuned such as Squad.
-  \paragraph{SquAD}\ldots\cite{squad}
-  \paragraph{GLUE}\ldots\cite{glue}
+\paragraph{Evaluation}
+\begin{itemize}
+  \item Squad\cite{squad}
+  \item GLUE\cite{glue}
+\end{itemize}
 
 
-\clearpage
 \bibliography{projectbibliography}
 \bibliographystyle{unsrt}
 
