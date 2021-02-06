@@ -14,7 +14,8 @@ DEADLINE: <2021-02-07 Sun>
 ** DONE explain BERT
 - [[https://www.youtube.com/watch?v=xI0HHN5XKDo][BERT Neural Network - EXPLAINED! - YouTube]]
 ** DONE explain PLMs
-** TODO explain KD and tinyBERT
+** DONE explain KD
+** TODO explain tinybert
 ** TODO explain metrics
 * transformers
 ** The illustrated transformer
@@ -493,7 +494,7 @@ compress the pre-trained language models.
 [[https://arxiv.org/abs/1909.10351][{1909.10351} TinyBERT: Distilling BERT for Natural Language Understanding]]
 file:./papers/1909.10351.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1909-10351,
+@article{tinybert,
   author    = {Xiaoqi Jiao and
                Yichun Yin and
                Lifeng Shang and
@@ -514,7 +515,30 @@ file:./papers/1909.10351.pdf
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 #+end_src
+** what does bert look at
+*** ref
+[[https://arxiv.org/abs/1906.04341][{1906.04341} What Does BERT Look At? An Analysis of BERT's Attention]]
+#+begin_src tex
+@article{whatdoesbertlookat,
+  author    = {Kevin Clark and
+               Urvashi Khandelwal and
+               Omer Levy and
+               Christopher D. Manning},
+  title     = {What Does {BERT} Look At? An Analysis of BERT's Attention},
+  journal   = {CoRR},
+  volume    = {abs/1906.04341},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1906.04341},
+  archivePrefix = {arXiv},
+  eprint    = {1906.04341},
+  timestamp = {Fri, 14 Jun 2019 09:38:24 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1906-04341.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
 ** Compression of Deep Learning Models For Text: A Survey
+#+attr_org: :width 800
+[[./tex/illustrations/modelcompressiontaxonomy.png]]
 *** ref
 file:./papers/2008.05221.pdf
 [[https://arxiv.org/abs/2008.05221][{2008.05221} Compression of Deep Learning Models for Text: A Survey]]
@@ -578,7 +602,7 @@ file:./papers/1806.03822.pdf
 [[https://arxiv.org/abs/1808.05326][{1808.05326} SWAG: A Large-Scale Adversarial Dataset for Grounded Commonsense...]]
 file:./papers/1808.05326.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1808-05326,
+@article{swag,
   author    = {Rowan Zellers and
                Yonatan Bisk and
                Roy Schwartz and
@@ -601,7 +625,7 @@ file:./papers/1808.05326.pdf
 [[https://arxiv.org/abs/1905.05460][{1905.05460} Cognitive Graph for Multi-Hop Reading Comprehension at Scale]]
 file:./papers/1905.05460.pdf
 #+begin_src tex
-@article{DBLP:journals/corr/abs-1905-05460,
+@article{multihop,
   author    = {Ming Ding and
                Chang Zhou and
                Qibin Chen and

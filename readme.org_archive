@@ -718,3 +718,45 @@ file:./papers/rethinking_the_value_of_network_pruning.pdf
 ** TODO understand code of transformer
 ** TODO get datasets and preprocessing
 ** TODO understand (fine-tuning) training for question answering
+
+* related work
+:PROPERTIES:
+:ARCHIVE_TIME: 2021-02-05 Fri 22:12
+:ARCHIVE_FILE: ~/udem/nlp/project/readme.org
+:ARCHIVE_OLPATH: model compression/TinyBert
+:ARCHIVE_CATEGORY: readme
+:END:
+- PLM compression techniques:
+  + low rank approximation
+  + weight sharing
+  + knowledge distillation
+  + pruning
+  + quantization
+#+begin_quote
+Pre-trained Language Models Compression Generally, pre-trained language models
+(PLMs) can be compressed by low-rank approximation (Ma et al., 2019; Lan et al.,
+2020), weight sharing (Dehghani et al., 2019; Lan et al., 2020), knowledge
+distillation (Tang et al., 2019; Sanh et al., 2019; Turc et al., 2019; Sun et
+al., 2020; Liu et al., 2020; Wang et al., 2020), pruning (Cui et al., 2019; Mc-
+Carley, 2019; F. et al., 2020; Elbayad et al., 2020; Gordon et al., 2020; Hou et
+al., 2020) or quantization (Shen et al., 2019; Zafrir et al., 2019).
+#+end_quote
+
+- Pretraining lite PLMS
+  + ALBERT
+  + ELECTRA
+#+begin_quote
+Pretraining Lite PLMs Other related works aim at directly pretraining lite
+PLMs. Turc et al. (2019) pre-trained 24 miniature BERT models and show that
+pre-training remains important in the context of smaller architectures, and
+fine-tuning pretrained compact models can be competitive. ALBERT (Lan et
+al., 2020) incorporates embedding factorization and cross-layer parameter
+sharing to reduce model parameters. Since ALBERT does not reduce hidden size or
+layers of transformer block, it still has large amount of computations. Another
+concurrent work, ELECTRA (Clark et al., 2020) proposes a sample-efficient task
+called replaced to- ken detection to accelerate pre-training, and it also
+presents a 12-layer ELECTRA small that has com- parable performance with
+TinyBERT 4 . Differentfrom these small PLMs, TinyBERT 4 is a 4-layer model which
+can achieve more speedup.
+#+end_quote
+

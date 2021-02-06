@@ -59,9 +59,25 @@ solely on an attention mechanism which enables it to model the long range
 dependencies in a sentence without the inherently sequential constraint which
 RNNs in their various forms imply. The massive parallelization enabled massive
 improvements in training time to achieve state of the art results in machine
-translation amongst other NLP tasks.\\
+translation amongst other NLP tasks.  Attention in its more general form is most
+succintly put by Vaswani et al in their paper: \blockcquote{allyouneed}{An
+attention function can be described as mapping a query and a set of key-value
+pairs to an output, where the query, keys, values, and output are all vectors.
+The output is computed as a weighted sum of the values, where the weight
+assign}\\
 
-% TODO self attention equation
+More formally, the key equation is:
+\begin{equation}
+  \label{eq:1}
+  \mathrm{Attention(Q,K,V) =
+    \mathrm{softmax}\left(\frac{QK^{T}}{\sqrt{d_{k}}}\right)}
+\end{equation}
+where $d_{k}$ is the dimensionnality of the queries and keys. The motivation
+for this scaling is \blockcquote{allyouneed}{We suspect that for large values of
+$d_{k}$, the dot products grow large in magnitude, pushing the softmax function
+into regions where it has extremely small gradients}
+
+
 
 \paragraph{Pretrained Language Models}Bidirectional Encoder Representation from
 (BERT)\cite{bert} is an architecture based on the encoder module of the
@@ -75,11 +91,87 @@ follows the other. When trained on those tasks the BERT yields a PLM. The
 resulting model can then be fine-tuned in a supervised setting for a specific
 tasks such as question answering. This ability to train once over a huge corpus
 of data to yield a LM and then fine tune it downstream adresses one core issue
-of deep learning: how to transfer learning or knowledge.\\
-
+of deep learning: how to transfer learning or knowledge?
 BERT is just one of many examples of large PLM deployed today. The
-following table lists the models and their associated number of parameters.
-\begin{table}[h]
+adjoined table lists the models and their associated number of parameters.
+
+\clearpage
+\paragraph{Knowledge Distillation} Knowledge Distillation (KD) addresse the
+following issue, how can we leverage the state of the art (SOA) results given by
+large PLMs to do inference in a context where memory and computing power are
+limited. One avenue would be to use one of the large PLMs to ``teach'' a smaller
+model (the student) which we can deploy in more ressource limited environments.
+Hinton, though not specifically with respect to PLMs, argued in
+2015\cite{hinton2015distilling} that one conceptual roadblock to knowledge
+transfer or ``distillation'' had been the rigid identification of a model with
+the learned parameter values instead of the more abstract view of a
+\enquote{learned mapping from input vectors to output
+vectors}\cite{hinton2015distilling}. The way to do this according to Hinton et
+al is to make the student learn through an objective function which reflects the
+generalization ability learned in the teacher model. To achieve this he proposes
+using an objective function which averages over the soft target (the output
+probabilities of the teacher where the logits are divided by temperature factor
+to adjust the smoothness of those targets) and the ground truth.\\
+
+
+\paragraph{Application of KD} The idea of KD is a fertile one and has been
+applied to BERT to train a model called TinyBERT\cite{tinybert}. In this paper
+the authors \blockcquote{tinybert}{introduce a new two-stage learning framework
+for TinyBERT, which per- forms Transformer distillation at both the pre-training
+and task-specific learning stages.} This enables the model to learn both general
+LM features and more downstream tasks. They also propose three types of loss
+functions which learn from different parameters of the teacher, namely the
+output of the embedding layer, the hidden states and attention matrices and the
+logits output by the prediction layer. In choosing to learn direclty from the
+attention matrices the authors are inspired by the work of Clark et al.
+(2019)\cite{whatdoesbertlookat} which shows that the former can
+\blockcquote{tinybert}{substantial linguistic knowledge}. With those
+aforementionned methods tinyBERT \blockcquote{tinybert}{while being
+7.5x smaller and 9.4x faster on inference.}
+
+
+\paragraph{Further model compression} In the conclusion of their paper on
+tinyBERT the authors mention that combining their distillation strategy with
+further model compression could be an interesting direction. They especially
+mention \textbf{weight pruning} and \textbf{quantization} as promising avenues.
+However the literature on model compression is rich and the excellent survey by
+Gupta and Agarwal (2020) \cite{gupta2020compression} mentions parameter sharing
+and tensor decomposition as well as interesting model compression paradigms.
+Their taxonomy is rich and for a bird's eye view we refer the reader to the
+figure\ref{fig:modelcompression} they supply with their paper. Even within
+each of these four paradigms
+\begin{itemize}
+  \item Pruning
+  \item Quantization
+  \item Parameter Sharing
+  \item Tensor Decomposition
+\end{itemize}
+Many sub-paradigms of those four are described in Gupta and Agarwal (2020)
+
+\paragraph{Proposal} In light of the previous discussion we propose to
+experiment with different paradigms of model compression on top of the KD based
+one implemented by TinyBERT. We still have yet to pick the most promising avenue
+for further investigations, which is the next step in our project.
+
+
+\paragraph{Evaluation} We will evaluate our models on two general criteria,
+performance on standardized tasks and memory and computational ressources required
+for training and inference at deployment.
+\begin{itemize}
+  \item Squad\cite{squad}
+  \item GLUE\cite{glue}
+\end{itemize}
+
+
+\clearpage
+\bibliography{projectbibliography}
+\bibliographystyle{unsrt}
+
+\clearpage
+\appendix
+\section{Appendix}
+
+\begin{table}[htbp]
 \centering
   \begin{tabular}{cc}
     \toprule
@@ -93,56 +185,17 @@ following table lists the models and their associated number of parameters.
     GShard & 600B\\
     \bottomrule
   \end{tabular}
-  \caption{PLMs and their sizes\cite{gupta2020compression}}
+  \caption{PLMs and their sizes\cite{gupta2020compression}}\label{plmsize}
 \end{table}
-\clearpage
 
-\paragraph{Knowledge Distillation} Knowledge Distillation (KD) addresse the
-following issue, how can we leverage the state of the art (SOA) results given by
-large PLMs to do inference in a context where memory and computing power are
-limited. One avenue would be to use one of the large PLMs to ``teach'' a smaller
-model (the student) which we can deploy in more ressource limited environments.
-Hinton, though not specifically with respect argued in
-2015\cite{hinton2015distilling} that one conceptual roadblock to knowledge
-transfer or ``distillation'' had been the rigid identification of a model with
-the learned parameter values instead of the more abstract view of a
-\enquote{learned mapping from input vectors to output
-vectors}\cite{hinton2015distilling}. The way to do this according to Hinton et
-al is to make the student learn through an objective function which reflects the
-generalization ability learned in the teacher model. To achieve this he proposes
-using an objective function which averages over the soft target (the output
-probabilities of the teacher where the logits are divided by temperature factor
-to adjust the smoothness of those targets) and the ground truth.\\
-
-\paragraph{TinyBERT}\ldots\cite{tinybert}
-
-\paragraph{Further model compression}
-We have the following other model compression techniques\ldots\cite{gupta2020compression}
-\begin{itemize}
-  \item Pruning\ldots
-  \item Quantization\ldots
-  \item Parameter Sharing\ldots
-  \item Tensor Decomposition\ldots
-\end{itemize}
-
-
-\paragraph{Evaluation}
-\begin{itemize}
-  \item Squad\cite{squad}
-  \item GLUE\cite{glue}
-\end{itemize}
-
-
-\bibliography{projectbibliography}
-\bibliographystyle{unsrt}
-
-
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{illustrations/modelcompressiontaxonomy}
+  \caption{Model Compression Taxonomy\cite{gupta2020compression}}\label{fig:modelcompression}
+\end{figure}
 
 \begin{comment}
-
-
 \section*{Introduction to attention and its history}
-
 It was conjectured by Bahdanau et al\cite{bahdanau2016neural} that the dominant
 encoder decoder paradigms to Neural Machine Translation presented one major
 drawback. All the information necessary to the transduction mechanism had to be
@@ -164,18 +217,23 @@ idea was called attention.
   e_{ij} = a(s_{i-1}, h_{j})
 \end{equation}
 % TODO explain in words fundamental equations of attention
-
-
-
-
-
 \begin{itemize}
   \item Albert\cite{Lan2020ALBERT}
   \item Reformer\cite{Kitaev2020Reformer:}
   \item Simple Recurrent Units (SRU)\cite{sru}
   \item Sparse Transformers (ST)\cite{sparsetransformers}
 \end{itemize}
-
 \end{comment}
 
+\begin{comment}
+Formally, borrowing the notation from Hinton et al let $z_{i}$ and $v_{i}$
+respectively represent the logits of the teacher and student model and assume
+the transfer training is done at temperature $T$. Then the gradient
+the cross-entropy gradient of the student with
+respect to its logit $z_{i}$,  $DC_{z_{i}}$ can be expressed as
+\begin{equation}
+  \label{eq:2}
+
+\end{equation}
+\end{comment}
 \end{document}
