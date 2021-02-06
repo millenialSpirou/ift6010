@@ -50,22 +50,28 @@
 
 
 \paragraph{Transformer} Vaswani et al \cite{allyouneed} introduced a
-revolutionnary architecture for machine translation in 2017, the transformer.
-The idea was based on the idea of an encoder and decoder for transduction as for
-the state of the art predecessors relying on deep bidirectionnal RNNs for both
-the encoding and the decoding stages. The authors of the transformer paper,
-``Attention is all you need'' based their architecture's sequence modeling
-solely on an attention mechanism which enables it to model the long range
-dependencies in a sentence without the inherently sequential constraint which
-RNNs in their various forms imply. The massive parallelization enabled massive
-improvements in training time to achieve state of the art results in machine
-translation amongst other NLP tasks.  Attention in its more general form is most
-succintly put by Vaswani et al in their paper: \blockcquote{allyouneed}{An
-attention function can be described as mapping a query and a set of key-value
-pairs to an output, where the query, keys, values, and output are all vectors.
-The output is computed as a weighted sum of the values, where the weight
-assign}\\
+revolutionnary architecture for machine translation in 2017, the
+\textit{transformer}.  The idea was based on the idea of an encoder and decoder
+in the same vein as the state of the art predecessors which themselves relied on
+deep bidirectionnal RNNs for both the encoding and the decoding stages. The idea
+of using attention mechanisms was already pioneered for neural machine
+translation (NMT) by Bachdanau et al. (2016)\cite{bahdanau2016neural} though
+they still relied on RNN's for encoders and decoders. The authors of the
+transformer paper, ``Attention is all you need'', based their architecture's
+sequence modeling solely on an (self) attention mechanism which enables it to
+model the long range dependencies in a sentence without the inherently
+sequential constraint which RNNs in their various forms imply. This enabled
+massive parallelization which in turn led to huge improvements in training time
+(pace model size) to achieve state of the art results in machine translation
+amongst other NLP tasks.  Attention in its more general form is most succintly
+put by Vaswani et al in their paper: \blockcquote{allyouneed}{An attention
+function can be described as mapping a query and a set of key-value pairs to an
+output, where the query, keys, values, and output are all vectors.  The output
+is computed as a weighted sum of the values, where the weight assigned to each
+value is computed by a compatibility function of the
+query with the corresponding key.}
 
+\begin{comment}
 More formally, the key equation is:
 \begin{equation}
   \label{eq:1}
@@ -76,6 +82,7 @@ where $d_{k}$ is the dimensionnality of the queries and keys. The motivation
 for this scaling is \blockcquote{allyouneed}{We suspect that for large values of
 $d_{k}$, the dot products grow large in magnitude, pushing the softmax function
 into regions where it has extremely small gradients}
+\end{comment}
 
 
 
@@ -111,7 +118,7 @@ al is to make the student learn through an objective function which reflects the
 generalization ability learned in the teacher model. To achieve this he proposes
 using an objective function which averages over the soft target (the output
 probabilities of the teacher where the logits are divided by temperature factor
-to adjust the smoothness of those targets) and the ground truth.\\
+to adjust the smoothness of those targets) and the ground truth.
 
 
 \paragraph{Application of KD} The idea of KD is a fertile one and has been
@@ -135,18 +142,18 @@ tinyBERT the authors mention that combining their distillation strategy with
 further model compression could be an interesting direction. They especially
 mention \textbf{weight pruning} and \textbf{quantization} as promising avenues.
 However the literature on model compression is rich and the excellent survey by
-Gupta and Agarwal (2020) \cite{gupta2020compression} mentions parameter sharing
+Gupta and Agarwal (2020)\cite{gupta2020compression} mentions parameter sharing
 and tensor decomposition as well as interesting model compression paradigms.
-Their taxonomy is rich and for a bird's eye view we refer the reader to the
-figure\ref{fig:modelcompression} they supply with their paper. Even within
-each of these four paradigms
+The four major paradigms, besides KD, of model compression are the following.
 \begin{itemize}
   \item Pruning
   \item Quantization
   \item Parameter Sharing
   \item Tensor Decomposition
 \end{itemize}
-Many sub-paradigms of those four are described in Gupta and Agarwal (2020)
+Many sub-paradigms of those four are described in Gupta and
+Agarwal (2020); their taxonomy is rich and for a bird's eye view we refer the
+reader to the figure\ref{fig:modelcompression} shown in appendix.
 
 \paragraph{Proposal} In light of the previous discussion we propose to
 experiment with different paradigms of model compression on top of the KD based

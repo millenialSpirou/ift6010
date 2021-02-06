@@ -15,7 +15,23 @@ DEADLINE: <2021-02-07 Sun>
 ** DONE explain KD
 ** DONE explain tinybert
 ** TODO explain metrics
+
 * transformers
+** Neural machine translation by jointly learning to align and translate
+*** ref
+- [[https://arxiv.org/abs/1409.0473][arxiv Neural Machine Translation by Jointly Learning to Align and Translate]]
+- file:./papers/jointlyLearningToAlignAndTranslate.pdf
+#+begin_src tex
+@misc{bahdanau2016neural,
+      title={Neural Machine Translation by Jointly Learning to Align and Translate},
+      author={Dzmitry Bahdanau and Kyunghyun Cho and Yoshua Bengio},
+      year={2016},
+      eprint={1409.0473},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+#+end_src
+
 ** The illustrated transformer
 *** ref
 [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
