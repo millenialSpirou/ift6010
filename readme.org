@@ -157,6 +157,25 @@ file:./papers/2008.05221.pdf
       primaryClass={cs.CL}
 }
 #+end_src
+** Block-Sparse recurrent Neural Networks
+[[https://arxiv.org/abs/1711.02782][{1711.02782} Block-Sparse Recurrent Neural Networks]]
+#+begin_src tex
+@article{blocksparse
+  author    = {Sharan Narang and
+               Eric Undersander and
+               Gregory F. Diamos},
+  title     = {Block-Sparse Recurrent Neural Networks},
+  journal   = {CoRR},
+  volume    = {abs/1711.02782},
+  year      = {2017},
+  url       = {http://arxiv.org/abs/1711.02782},
+  archivePrefix = {arXiv},
+  eprint    = {1711.02782},
+  timestamp = {Mon, 13 Aug 2018 16:48:36 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1711-02782.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+#+end_src
 ** what does bert look at
 *** ref
 [[https://arxiv.org/abs/1906.04341][{1906.04341} What Does BERT Look At? An Analysis of BERT's Attention]]

@@ -48,6 +48,7 @@
 \maketitle
 \medskip
 
+\section{Introduction and historical notes}
 
 \paragraph{Transformer} Vaswani et al \cite{allyouneed} introduced a
 revolutionnary architecture for machine translation in 2017, the
@@ -71,18 +72,6 @@ is computed as a weighted sum of the values, where the weight assigned to each
 value is computed by a compatibility function of the
 query with the corresponding key.}
 
-\begin{comment}
-More formally, the key equation is:
-\begin{equation}
-  \label{eq:1}
-  \mathrm{Attention(Q,K,V) =
-    \mathrm{softmax}\left(\frac{QK^{T}}{\sqrt{d_{k}}}\right)}
-\end{equation}
-where $d_{k}$ is the dimensionnality of the queries and keys. The motivation
-for this scaling is \blockcquote{allyouneed}{We suspect that for large values of
-$d_{k}$, the dot products grow large in magnitude, pushing the softmax function
-into regions where it has extremely small gradients}
-\end{comment}
 
 
 
@@ -102,7 +91,6 @@ of deep learning: how to transfer learning or knowledge?
 BERT is just one of many examples of large PLM deployed today. The
 adjoined table lists the models and their associated number of parameters.
 
-\clearpage
 \paragraph{Knowledge Distillation} Knowledge Distillation (KD) addresse the
 following issue, how can we leverage the state of the art (SOA) results given by
 large PLMs to do inference in a context where memory and computing power are
@@ -124,7 +112,7 @@ to adjust the smoothness of those targets) and the ground truth.
 \paragraph{Application of KD} The idea of KD is a fertile one and has been
 applied to BERT to train a model called TinyBERT\cite{tinybert}. In this paper
 the authors \blockcquote{tinybert}{introduce a new two-stage learning framework
-for TinyBERT, which per- forms Transformer distillation at both the pre-training
+for TinyBERT, which performs Transformer distillation at both the pre-training
 and task-specific learning stages.} This enables the model to learn both general
 LM features and more downstream tasks. They also propose three types of loss
 functions which learn from different parameters of the teacher, namely the
@@ -133,42 +121,51 @@ logits output by the prediction layer. In choosing to learn direclty from the
 attention matrices the authors are inspired by the work of Clark et al.
 (2019)\cite{whatdoesbertlookat} which shows that the former can
 \blockcquote{tinybert}{substantial linguistic knowledge}. With those
-aforementionned methods tinyBERT \blockcquote{tinybert}{while being
-7.5x smaller and 9.4x faster on inference.}
+aforementionned methods tinyBERT \blockcquote{tinybert}{ achieves more than
+96.8\% the performance of its teacher BERT BASE on GLUE benchmark,  while
+being 7.5x smaller and 9.4x faster on inference.}
 
 
-\paragraph{Further model compression} In the conclusion of their paper on
-tinyBERT the authors mention that combining their distillation strategy with
-further model compression could be an interesting direction. They especially
-mention \textbf{weight pruning} and \textbf{quantization} as promising avenues.
-However the literature on model compression is rich and the excellent survey by
-Gupta and Agarwal (2020)\cite{gupta2020compression} mentions parameter sharing
-and tensor decomposition as well as interesting model compression paradigms.
-The four major paradigms, besides KD, of model compression are the following.
-\begin{itemize}
-  \item Pruning
-  \item Quantization
-  \item Parameter Sharing
-  \item Tensor Decomposition
-\end{itemize}
-Many sub-paradigms of those four are described in Gupta and
-Agarwal (2020); their taxonomy is rich and for a bird's eye view we refer the
-reader to the figure\ref{fig:modelcompression} shown in appendix.
 
-\paragraph{Proposal} In light of the previous discussion we propose to
+\section{Proposal}
+
+\paragraph{General approach}In light of the previous discussion we propose to
 experiment with different paradigms of model compression on top of the KD based
-one implemented by TinyBERT. We still have yet to pick the most promising avenue
-for further investigations, which is the next step in our project.
+one implemented by TinyBERT. The strategy outlined below is mainly inspired by
+Gupta et al \cite{gupta2020compression}.  We are considering augmenting the
+compression of TinyBERT through a mix of quantization and pruning.  Gupta et al
+suggest that \blockcquote{gupta2020compression}{Mixed-precision quantization
+combined with pruning is highly effective for Transformer based models.}
 
+\paragraph{Pruning} In the case of pruning it is recommended to do the process
+iteratively, over epochs during traing, this is called iterative or gradual
+pruning. Different patterns of controlling this process exist but they are
+independent of the categories of pruning we now describe and we privilege
+gradual over static pruning. Unstructured weight pruning (e.g. eliminating low
+magnitude weights) leads to difficulties in manipulating the resulting sparse
+data structures.  Neuron pruning doesn't yield the same difficulty but is
+limited since we need to eliminate whole columns or rows of weight matrices. A
+more promising approach is to prune blocks which are contiguously stored in
+memory. The blocks to be pruned can be guided through group Lasso
+regularization. The latter has been already experimented, however it was
+targetting RNN based models and not transformers\cite{blocksparse} We plan on
+first experimenting with simple structured block pruning and more intricate
+schemes describe in Gupta given we have enough time.
+
+\paragraph{Quantization} With regards to quantization while binary quantization
+does not work effectively for text-based Neural networks, ternary and higher-bit
+quantization \blockcquote{gupta2020compression}{lead to significant model size
+reduction without loss in accuracy across tasks}. Moreover more fancy,
+non-uniform, schemes can be used such as the ones based on KMeans or loss aware
+schemes.  We plan on starting with uniform quantization and given time available
+experiment with non-uniform schemes.
 
 \paragraph{Evaluation} We will evaluate our models on two general criteria,
 performance on standardized tasks and memory and computational ressources required
 for training and inference at deployment. The two framworks for evaluating performance
-we are considering are listed below with reference.
-\begin{itemize}
-  \item Squad\cite{squad}
-  \item GLUE\cite{glue}
-\end{itemize}
+we are considering are Squad\cite{squad} and GLUE\cite{glue}
+
+
 
 
 \clearpage
@@ -201,6 +198,19 @@ we are considering are listed below with reference.
   \includegraphics[width=\textwidth]{illustrations/modelcompressiontaxonomy}
   \caption{Model Compression Taxonomy\cite{gupta2020compression}}\label{fig:modelcompression}
 \end{figure}
+
+\begin{comment}
+More formally, the key equation is:
+\begin{equation}
+  \label{eq:1}
+  \mathrm{Attention(Q,K,V) =
+    \mathrm{softmax}\left(\frac{QK^{T}}{\sqrt{d_{k}}}\right)}
+\end{equation}
+where $d_{k}$ is the dimensionnality of the queries and keys. The motivation
+for this scaling is \blockcquote{allyouneed}{We suspect that for large values of
+$d_{k}$, the dot products grow large in magnitude, pushing the softmax function
+into regions where it has extremely small gradients}
+\end{comment}
 
 \begin{comment}
 \section*{Introduction to attention and its history}
@@ -243,5 +253,22 @@ respect to its logit $z_{i}$,  $DC_{z_{i}}$ can be expressed as
   \label{eq:2}
 
 \end{equation}
+\end{comment}
+
+
+\begin{comment}
+  \paragraph{Further model compression} In the conclusion of their paper on
+tinyBERT the authors mention that combining their distillation strategy with
+further model compression could be an interesting direction. They especially
+mention \textbf{weight pruning} and \textbf{quantization} as promising avenues.
+However the literature on model compression is rich and the excellent survey by
+Gupta and Agarwal (2020)\cite{gupta2020compression} mentions parameter sharing
+and tensor decomposition as well as interesting model compression paradigms.
+The four major paradigms, besides KD, of model compression are the following:
+pruning, quantization, parameter sharing and tensor decomposition. Many sub-paradigms
+of those four are described in Gupta and Agarwal (2020); their taxonomy is rich
+and for a bird's eye view we refer the reader to the
+figure\ref{fig:modelcompression} shown in appendix.
+
 \end{comment}
 \end{document}
