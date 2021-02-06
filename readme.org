@@ -3,10 +3,8 @@
 #+startup: inlineimages
 #+property: header-args:tex :tangle ./tex/projectbibliography.bib
 
-
 * TODO project proposal
 DEADLINE: <2021-02-07 Sun>
-** relevant files
 - file:./tex/projectproposal.tex
 - file:./tex/projectbibliography.bib
 
@@ -15,31 +13,13 @@ DEADLINE: <2021-02-07 Sun>
 - [[https://www.youtube.com/watch?v=xI0HHN5XKDo][BERT Neural Network - EXPLAINED! - YouTube]]
 ** DONE explain PLMs
 ** DONE explain KD
-** TODO explain tinybert
+** DONE explain tinybert
 ** TODO explain metrics
 * transformers
 ** The illustrated transformer
 *** ref
 [[https://jalammar.github.io/illustrated-transformer/][The Illustrated Transformer – Jay Alammar – Visualizing machine learning one ...]]
 ** Attention is all you need
-*** introduction
-*** self (multi-head) attention
-#+attr_org: :width 800
-[[./tex/illustrations/transformerSelfAttention.png]]
-
-#+attr_org: :width 800
-[[./tex/illustrations/transformerscaleddotproduct.png]]
-
-#+begin_quote
-The two most commonly used attention functions are additive attention [2], and
-dot-product (multi- plicative) attention. Dot-product attention is identical to
-our algorithm, except for the scaling factor of √ 1 d . Additive attention
-computes the compatibility function using a feed-forward network with k a single
-hidden layer. While the two are similar in theoretical complexity, dot-product
-attention is much faster and more space-efficient in practice, since it can be
-implemented using highly optimized matrix multiplication code.
-#+end_quote
-
 *** ref
 - [[https://arxiv.org/abs/1706.03762][arxiv attention is all you need]]
 - file:./papers/attentionIsAllYouNeed.pdf
@@ -66,222 +46,6 @@ implemented using highly optimized matrix multiplication code.
 }
 #+end_src
 ** BERT
-*** introduction
-
-#+begin_quote
-There are two existing strategies for apply-
-ing pre-trained language representations to down-
-stream tasks: feature-based and fine-tuning. The
-feature-based approach, such as ELMo (Peters
-et al., 2018a), uses task-specific architectures that
-include the pre-trained representations as addi-
-tional features. The fine-tuning approach, such as
-the Generative Pre-trained Transformer (OpenAI
-GPT) (Radford et al., 2018), introduces minimal
-task-specific parameters, and is trained on the
-downstream tasks by simply fine-tuning all pre-
-trained parameters. The two approaches share the
-same objective function during pre-training, where
-they use unidirectional language models to learn
-general language representations.
-#+end_quote
-
-#+begin_quote
-We argue that current techniques restrict the
-power of the pre-trained representations, espe-
-cially for the fine-tuning approaches. The ma-
-jor limitation is that standard language models are
-unidirectional, and this limits the choice of archi-
-tectures that can be used during pre-training. For
-example, in OpenAI GPT, the authors use a left-to-
-right architecture, where every token can only at-
-tend to previous tokens in the self-attention layers
-of the Transformer (Vaswani et al., 2017). Such re-
-strictions are sub-optimal for sentence-level tasks,
-and could be very harmful when applying fine-
-tuning based approaches to token-level tasks such
-as question answering, where it is crucial to incor-
-porate context from both directions.
-#+end_quote
-
-#+begin_quote
-In this paper, we improve the fine-tuning based approaches by proposing BERT:
-Bidirectional Encoder Representations from Transformers.  BERT alleviates the
-previously mentioned unidi- rectionality constraint by using a “masked lan-
-guage model” (MLM) pre-training objective, in- spired by the Cloze task (Taylor,
-1953). The masked language model randomly masks some of the tokens from the
-input, and the objective is to predict the original vocabulary id of the
-maskedword based only on its context. Unlike left-to- right language model
-pre-training, the MLM ob- jective enables the representation to fuse the left
-and the right context, which allows us to pre- train a deep bidirectional
-Transformer. In addi- tion to the masked language model, we also use a “next
-sentence prediction” task that jointly pre- trains text-pair representations.
-#+end_quote
-
-*** implementation intro
-#+begin_quote
-There are two steps in our framework: pre-training and fine-tuning. During
-pretraining, the model is trained on unlabeled data over different pre-training
-tasks. For finetuning, the BERT model is first initialized with the
-pre-trained parameters, and all of the parameters are fine-tuned using labeled
-data from the downstream tasks. Each downstream task has separate fine-tuned
-models, even though they are initialized with the same pretrained parameters.
-#+end_quote
-
-#+begin_quote
-BERT’s model architecture is a multilayer bidirectional Transformer encoder
-based on the original implementation described in Vaswani et al. (2017)
-[Attention is all you need] and released in the tensor2tensor library.
-#+end_quote
-
-see attention is all you need for architecture
-
-*** input outpout representation
-
-#+begin_quote
-To make BERT handle a variety of down-stream tasks, our input representation is
-able to unambiguously represent both a single sentence and a pair of sentences
-(e.g., <Question, Answer>) in one token sequence.
-#+end_quote
-
-#+begin_quote
-The first token of every sequence is always a special classification token
-([CLS]). The final hidden state corresponding to this token is used as the
-aggregate sequence representation for classification tasks. Sentence pairs are
-packed together into a single sequence. We differentiate the sentences in two
-ways. First, we separate them with a special token ([SEP]). Second, we add a
-learned embedding to every token indicating whether it belongs to sentence A
-or sentence B.
-#+end_quote
-
-#+attr_org: :width 700
-[[./tex/illustrations/bertInputRepresentation.png]]
-
-*** pretraining
-**** task 1, masked LM
-#+begin_quote
-In order to train a deep bidirectional representation, we simply mask some
-percentage of the input tokens at random, and then predict those masked tokens.
-We refer to this procedure as a “masked LM” (MLM), although it is often referred
-to as a Cloze task in the literature (Taylor, 1953). In this case, the final
-hidden vectors corresponding to the mask tokens are fed into an output softmax
-over the vocabulary, as in a standard LM. In all of our experiments, we mask 15%
-of all WordPiece tokens in each sequence at random.
-#+end_quote
-**** task 2 next sentence prediction
-#+begin_quote
-Many important downstream tasks such as Question Answering (QA) and Natural
-Language Inference (NLI) are based on understanding the relationship between
-two sentences, which is not di- rectly captured by language modeling. In order
-to train a model that understands sentence relationships, we pre-train for a
-binarized next sentence prediction task that can be trivially generated from
-any monolingual corpus. Specifically, when choosing the sentences A and B for
-each pre-training example, 50% of the time B is the actual next sentence that
-follows A (labeled as IsNext ), and 50% of the time it is a random sentence from
-the corpus (labeled as NotNext ).
-#+end_quote
-
-**** pretraining data
-#+begin_quote
-The pre-training procedure largely follows the existing literature on language
-model pre-training. For the pre-training corpus we use the BooksCorpus (800M
-words) (Zhu et al., 2015) and English Wikipedia (2,500M words).  For Wikipedia
-we extract only the text passages and ignore lists, tables, and headers. It is
-criti- cal to use a document-level corpus rather than a shuffled sentence-level
-corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to
-extract long contiguous sequences.
-#+end_quote
-*** fine tuning
-#+begin_quote
-Fine-tuning is straightforward since the self- attention mechanism in the
-Transformer allows BERT to model many downstream tasks— whether they involve
-single text or text pairs—by swapping out the appropriate inputs and outputs.
-For applications involving text pairs, a common pattern is to independently
-encode text pairs be- fore applying bidirectional cross attention, such as
-Parikh et al. (2016); Seo et al. (2017). BERT instead uses the self-attention
-mechanism to unify these two stages, as encoding a concatenated text pair with
-self-attention effectively includes bidi- rectional cross attention between two
-sentences.  For each task, we simply plug in the task- specific inputs and
-outputs into BERT and fine- tune all the parameters end-to-end. At the in- put,
-sentence A and sentence B from pre-training are analogous to (1) sentence pairs
-in paraphras- ing, (2) hypothesis-premise pairs in entailment, (3)
-question-passage pairs in question answering, and (4) a degenerate text-∅ pair
-in text classification or sequence tagging. At the output, the token rep-
-resentations are fed into an output layer for token- level tasks, such as
-sequence tagging or question answering, and the [CLS] representation is fed into
-an output layer for classification, such as entailment or sentiment analysis.
-Compared to pre-training, fine-tuning is relatively inexpensive.
-
-#+end_quote
-
-#+begin_quote
-All of the results in the paper can be replicated in at most 1 hour on a single
-Cloud TPU, or *a few hours on a GPU*, starting from the exact same pre-trained
-model. 7
-#+end_quote
-
-*** experiments
-**** squad
-#+begin_quote
-in the question answering task, we represent the input question and pas- sage as
-a single packed sequence, with the question using the A embedding and the
-passage using the B embedding. We only introduce a start vector S ∈ R^H and an
-end vector E ∈ R^H during fine-tuning. The probability of word i being the start
-of the answer span is computed as a dot product between T_i and S followed by a
-softmax over S·Ti all of the words in the paragraph.  The analogous formula is
-used for the end of the answer span. The score of a candidate span from position
-i to position j is defined as S·T_i + E·T_j , and the maximum scoring span where
-j ≥ i is used as a prediction. The training objective is the sum of the
-log-likelihoods of the correct start and end positions.
-#+end_quote
-
-**** squad 2
-#+begin_quote
-The SQuAD 2.0 task extends the SQuAD 1.1 problem definition by allowing for the
-possibility that no short answer exists in the provided para- graph, making the
-problem more realistic.  We use a simple approach to extend the SQuAD v1.1 BERT
-model for this task. We treat questions that do not have an answer as having
-an answer span with start and end at the [CLS] token. The probability space
-for the start and end answer span positions is extended to include the position
-of the [CLS] token.
-
-For prediction, we compare the score of the no-answer span: s null = S·C + E·C
-to the score of the best non-null span s \hat_{i,j}= max j≥i S·T_i + E·T_j .
-We predict a non-null answer when s ˆ i,j > s null + τ , where the threshold τ
-is selected on the dev set to maximize F1.
-#+end_quote
-
-**** swag
-#+begin_quote
-The Situations With Adversarial Generations (SWAG) dataset contains 113k
-sentence-pair com- pletion examples that evaluate grounded commonsense
-inference (Zellers et al., 2018). Given a sentence, the task is to choose the
-most plausible continuation among four choices.  When fine-tuning on the SWAG
-dataset, we construct four input sequences, each containing the concatenation of
-the given sentence (sentence A) and a possible continuation (sentence B). The
-only task-specific parameters introduced is a vector whose dot product with
-the [CLS] token representation C denotes a score for each choice which is
-normalized with a softmax layer.
-#+end_quote
-
-**** effect of model size
-
-#+begin_quote
-we believe that this is the first work to demonstrate convincingly
-that scaling to extreme model sizes also leads to large improvements on very
-small scale tasks, provided that the model has been sufficiently pre-trained.
-#+end_quote
-*** conclusion
-#+begin_quote
-Recent empirical improvements due to transfer learning with language models have
-demonstrated that rich, unsupervised pre-training is an integral part of many
-language understanding systems. In particular, these results enable even
-low-resource tasks to benefit from deep unidirectional architectures. Our major
-contribution is further generalizing these findings to deep bidirectional
-architectures, allowing the same pre-trained model to successfully tackle a
-broad set of NLP tasks.
-#+end_quote
-
 *** ref
 - [[https://arxiv.org/abs/1810.04805][{1810.04805} BERT: Pre-training of Deep Bidirectional Transformers for Langua...]]
 - file:./papers/1810.04805.pdf
@@ -322,41 +86,6 @@ file:./papers/2003.08271.pdf
 
 * model compression
 ** Knowledge Distillation
-*** introduction
-#+begin_quote
-In large-scale machine learning, we typically use very similar models for the
-training stage and the deployment stage despite their very different
-requirements: For tasks like speech and object recognition, training must
-extract structure from very large, highly redundant datasets but it does not
-need to operate in real time and it can use a huge amount of computation.
-Deployment to a large number of users, however, has much more stringent
-requirements on latency and computational resources.
-#+end_quote
-
-#+begin_quote
-A conceptual block that may have prevented more investigation of this very
-promising approach is that we tend to identify the knowledge in a trained model
-with the learned parameter values and this makes it hard to see how we can
-change the form of the model but keep the same knowledge.  A more abstract view
-of the knowledge, that frees it from any particular instantiation, is that it is
-a learned mapping from input vectors to output vectors.
-#+end_quote
-
-#+begin_quote
-It is generally accepted that the objective function used for training should
-reflect the true objective of the user as closely as possible. Despite this,
-models are usually trained to optimize performance on the training data when the
-real objective is to generalize well to new data. It would clearly be better to
-train models to generalize well, but this requires information about the correct
-way to generalize and this information is not normally available. When we are
-distilling the knowledge from a large model into a small one, however, we can
-train the small model to generalize in the same way as the large model. If the
-cumbersome model generalizes well because, for example, it is the average of a
-large ensemble of different models, a small model trained to generalize in the
-same way will typically do much better on test data than a small model that is
-trained in the normal way on the same training set as was used to train the
-ensemble.
-#+end_quote
 *** ref
 file:./papers/1503.02531.pdf
 [[https://arxiv.org/abs/1503.02531][{1503.02531} Distilling the Knowledge in a Neural Network]]
@@ -371,125 +100,6 @@ file:./papers/1503.02531.pdf
 }
 #+end_src
 ** TinyBert
-*** abstract
-#+begin_quote
-Language model pre-training, such as BERT, has significantly improved the
-performances of many natural language processing tasks.  However, pre-trained
-language models are usually computationally expensive, so it is difficult to
-efficiently execute them on resource-restricted devices. To accelerate
-inference and reduce model size while maintaining accuracy, we first propose a
-novel Transformer distillation method that is specially designed for
-knowledge distillation (KD) of the Transformer-based models.
-#+end_quote
-
-#+begin_quote
-By leveraging this new KD method, the plenty of knowledge encoded in a large
-“teacher” BERT can be effectively transferred to a small “student” TinyBERT.
-Then, we introduce a new *two-stage learning framework* for TinyBERT, which per-
-forms Transformer distillation at both the pre- training and task-specific
-learning stages. This framework ensures that TinyBERT can capture the
-general-domain as well as the task-specific knowledge in BERT.
-#+end_quote
-
-#+begin_quote
-TinyBERT4 with 4 layers is empirically effective and achieves more than
-96.8% the performance of its teacher BERT BASE on GLUE benchmark, while being
-7.5x smaller and 9.4x faster on inference.
-
-TinyBERT4 is also significantly better than 4-layer state-of-the-art baselines
-on BERT distillation, with only ∼28% parameters and ∼31% inference time of them.
-Moreover, TinyBERT 6 with 6 layers performs on-par with its teacher BERT BASE .
-#+end_quote
-*** introduction
-
-PLMs based on the transformer architecture such as BERT, XLNet, RoBERTa, etc
-have been sucessful at many NLP tasks including the GLUE benchmark.
-*toquote*
-#+begin_quote
-Pre-trained language models (PLMs), such as BERT (Devlin et al., 2019), XLNet
-(Yang et al., 2019), RoBERTa (Liu et al., 2019), ALBERT (Lan et al., 2020), T5
-(Raffel et al., 2019) and ELECTRA (Clark et al., 2020), have achieved great
-success in many NLP tasks (e.g., the GLUE benchmark (Wang et al., 2018) and the
-challenging multi-hop reasoning task (Ding et al., 2019)).
-#+end_quote
-
-*toquote*
-#+begin_quote
-However, PLMs usually have a large number of parameters and take long infer-
-ence time, which are difficult to be deployed on edge devices such as mobile
-phones. Recent studies (Kovaleva et al., 2019; Michel et al., 2019; Voita et
-al., 2019) demonstrate that there is redundancy in PLMs. Therefore, it is
-crucial and feasible to reduce the computational overhead and model storage of
-PLMs while retaining their performances.
-#+end_quote
-
-model compression techniques:
-- quantization
-- weights pruning
-- Knowldge distillation
-#+begin_quote
-There have been many model compression techniques (Han et al., 2016) proposed
-to accelerate deep model inference and reduce model size while maintaining
-accuracy. The most commonly used techniques include quantization (Gong et al.,
-2014), weights pruning (Han et al., 2015), and knowledge distillation (KD)
-(Romero et al., 2014). In this paper, we focus on knowledge distillation, an
-idea originated from Hinton et al. (2015), in a teacher-student framework. KD
-aims to transfer the knowledge embedded in a large teacher net- work to a small
-student network where the student network is trained to reproduce the behaviors
-of the teacher network. Based on the framework, we propose a novel
-distillation method specifically for the Transformer-based models (Vaswani et
-al., 2017), and use BERT as an example to investigate the method for large-scale
-PLMs.
-#+end_quote
-
-#+begin_quote
-it is required to design an effective KD strategy for both training stages.
-#+end_quote
-*** related work
-- PLM compression techniques:
-  + low rank approximation
-  + weight sharing
-  + knowledge distillation
-  + pruning
-  + quantization
-#+begin_quote
-Pre-trained Language Models Compression Generally, pre-trained language models
-(PLMs) can be compressed by low-rank approximation (Ma et al., 2019; Lan et al.,
-2020), weight sharing (Dehghani et al., 2019; Lan et al., 2020), knowledge
-distillation (Tang et al., 2019; Sanh et al., 2019; Turc et al., 2019; Sun et
-al., 2020; Liu et al., 2020; Wang et al., 2020), pruning (Cui et al., 2019; Mc-
-Carley, 2019; F. et al., 2020; Elbayad et al., 2020; Gordon et al., 2020; Hou et
-al., 2020) or quantization (Shen et al., 2019; Zafrir et al., 2019).
-#+end_quote
-
-- Pretraining lite PLMS
-  + ALBERT
-  + ELECTRA
-#+begin_quote
-Pretraining Lite PLMs Other related works aim at directly pretraining lite
-PLMs. Turc et al. (2019) pre-trained 24 miniature BERT models and show that
-pre-training remains important in the context of smaller architectures, and
-fine-tuning pretrained compact models can be competitive. ALBERT (Lan et
-al., 2020) incorporates embedding factorization and cross-layer parameter
-sharing to reduce model parameters. Since ALBERT does not reduce hidden size or
-layers of transformer block, it still has large amount of computations. Another
-concurrent work, ELECTRA (Clark et al., 2020) proposes a sample-efficient task
-called replaced to- ken detection to accelerate pre-training, and it also
-presents a 12-layer ELECTRA small that has com- parable performance with
-TinyBERT 4 . Differentfrom these small PLMs, TinyBERT 4 is a 4-layer model which
-can achieve more speedup.
-#+end_quote
-
-*** conclusion
-#+begin_quote
-In future work, we would study how to effectively
-transfer the knowledge from wider and deeper
-teachers (e.g., BERT LARGE ) to student TinyBERT.
-Combining distillation with quantization/pruning
-would be another promising direction to further
-compress the pre-trained language models.
-#+end_quote
-
 *** ref
 [[https://arxiv.org/abs/1909.10351][{1909.10351} TinyBERT: Distilling BERT for Natural Language Understanding]]
 file:./papers/1909.10351.pdf
@@ -515,6 +125,22 @@ file:./papers/1909.10351.pdf
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 #+end_src
+** Compression of Deep Learning Models For Text: A Survey
+#+attr_org: :width 800
+[[./tex/illustrations/modelcompressiontaxonomy.png]]
+*** ref
+file:./papers/2008.05221.pdf
+[[https://arxiv.org/abs/2008.05221][{2008.05221} Compression of Deep Learning Models for Text: A Survey]]
+#+begin_src tex
+@misc{gupta2020compression,
+      title={Compression of Deep Learning Models for Text: A Survey},
+      author={Manish Gupta and Puneet Agrawal},
+      year={2020},
+      eprint={2008.05221},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+#+end_src
 ** what does bert look at
 *** ref
 [[https://arxiv.org/abs/1906.04341][{1906.04341} What Does BERT Look At? An Analysis of BERT's Attention]]
@@ -534,22 +160,6 @@ file:./papers/1909.10351.pdf
   timestamp = {Fri, 14 Jun 2019 09:38:24 +0200},
   biburl    = {https://dblp.org/rec/journals/corr/abs-1906-04341.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
-}
-#+end_src
-** Compression of Deep Learning Models For Text: A Survey
-#+attr_org: :width 800
-[[./tex/illustrations/modelcompressiontaxonomy.png]]
-*** ref
-file:./papers/2008.05221.pdf
-[[https://arxiv.org/abs/2008.05221][{2008.05221} Compression of Deep Learning Models for Text: A Survey]]
-#+begin_src tex
-@misc{gupta2020compression,
-      title={Compression of Deep Learning Models for Text: A Survey},
-      author={Manish Gupta and Puneet Agrawal},
-      year={2020},
-      eprint={2008.05221},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
 }
 #+end_src
 * tasks for benchmarking
