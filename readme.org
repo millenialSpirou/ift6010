@@ -14,6 +14,8 @@ DEADLINE: <2021-02-07 Sun>
 ** DONE explain PLMs
 ** DONE explain KD
 ** DONE explain tinybert
+** TODO group KD, pruning and quantization under methods
+** TODO remove transformer section and pretrained language models as comments
 ** TODO explain metrics
 
 * transformers

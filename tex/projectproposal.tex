@@ -9,6 +9,7 @@
 \usepackage{booktabs}
 
 
+
 \usepackage[table]{xcolor}
 \usepackage{longtable}
 \usepackage{geometry}
@@ -48,31 +49,25 @@
 \maketitle
 \medskip
 
-\section{Introduction and historical notes}
+\begin{abstract}
+    Attention based pretrained-language models (PLM) now dominate
+  the state of the art (SOA) in NLP for language modelling tasks such as GLUE and
+  more downstream ones like question answering (Squad) or question generation. The
+  models however tend to be huge, the pretraining itself it not possible to
+  experiment with unless one has access to an array of costly hardware
+  accelerators. PLMs on the other hand can be fine tuned after pre-training for
+  more specific tasks such as question answering. The problem still stands as the
+  models are huge, while BERT has \textit{only} 340M, others are much larger, such
+  as Amazon's MegatronLM have 8.3B and for true exageration one can look at
+  GShard, a swooping 600B. This poses challenges for deployment as even once
+  trained inference and simply storing these models are costly.  We thus tackle
+  \textit{model compression}. One very promising model issued from such an idea is
+  TinyBERT which used knowledge distillation (KD). We will investigate how such a
+  model can be further compressed with techniques such as \textit{pruning} and
+  \textit{quantization}
+\end{abstract}
 
-\paragraph{Transformer} Vaswani et al \cite{allyouneed} introduced a
-revolutionnary architecture for machine translation in 2017, the
-\textit{transformer}.  The idea was based on the idea of an encoder and decoder
-in the same vein as the state of the art predecessors which themselves relied on
-deep bidirectionnal RNNs for both the encoding and the decoding stages. The idea
-of using attention mechanisms was already pioneered for neural machine
-translation (NMT) by Bachdanau et al. (2016)\cite{bahdanau2016neural} though
-they still relied on RNN's for encoders and decoders. The authors of the
-transformer paper, ``Attention is all you need'', based their architecture's
-sequence modeling solely on an (self) attention mechanism which enables it to
-model the long range dependencies in a sentence without the inherently
-sequential constraint which RNNs in their various forms imply. This enabled
-massive parallelization which in turn led to huge improvements in training time
-(pace model size) to achieve state of the art results in machine translation
-amongst other NLP tasks.  Attention in its more general form is most succintly
-put by Vaswani et al in their paper: \blockcquote{allyouneed}{An attention
-function can be described as mapping a query and a set of key-value pairs to an
-output, where the query, keys, values, and output are all vectors.  The output
-is computed as a weighted sum of the values, where the weight assigned to each
-value is computed by a compatibility function of the
-query with the corresponding key.}
-
-
+\section{Introcuction}
 
 
 \paragraph{Pretrained Language Models}Bidirectional Encoder Representation from
@@ -108,8 +103,9 @@ using an objective function which averages over the soft target (the output
 probabilities of the teacher where the logits are divided by temperature factor
 to adjust the smoothness of those targets) and the ground truth.
 
+\section{Related Work}
 
-\paragraph{Application of KD} The idea of KD is a fertile one and has been
+\paragraph{TinyBERT} The idea of KD is a fertile one and has been
 applied to BERT to train a model called TinyBERT\cite{tinybert}. In this paper
 the authors \blockcquote{tinybert}{introduce a new two-stage learning framework
 for TinyBERT, which performs Transformer distillation at both the pre-training
@@ -126,8 +122,13 @@ aforementionned methods tinyBERT \blockcquote{tinybert}{ achieves more than
 being 7.5x smaller and 9.4x faster on inference.}
 
 
+\section{Task and Dataset}
 
-\section{Proposal}
+The two framworks for evaluating performance we are considering are
+Squad\cite{squad} and GLUE\cite{glue}
+
+
+\section{Methods}
 
 \paragraph{General approach}In light of the previous discussion we propose to
 experiment with different paradigms of model compression on top of the KD based
@@ -160,10 +161,10 @@ non-uniform, schemes can be used such as the ones based on KMeans or loss aware
 schemes.  We plan on starting with uniform quantization and given time available
 experiment with non-uniform schemes.
 
-\paragraph{Evaluation} We will evaluate our models on two general criteria,
-performance on standardized tasks and memory and computational ressources required
-for training and inference at deployment. The two framworks for evaluating performance
-we are considering are Squad\cite{squad} and GLUE\cite{glue}
+\section{Baselines and evaluation} The resulting compressed model will be first
+and foremost compared to TinyBERT and BERT. We will evaluate our models on two
+general criteria, performance on standardized tasks and memory and computational
+ressources required for training and inference at deployment.
 
 
 
